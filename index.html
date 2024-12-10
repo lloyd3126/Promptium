@@ -12,7 +12,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Racing+Sans+One&display=swap"
         rel="stylesheet">
-    <!-- <link rel="icon" sizes="16x16" href="favicon.ico"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico">
     <style>
         * {
@@ -96,7 +95,7 @@
             </div>
         </div>
         <div class="row mb-4">
-            <h2 class="fs-6 mb-3">如何使用</h2>
+            <h2 class="fs-6 mb-3 fw-bold">如何使用</h2>
             <p>
                 使用 Promptium 可以輕鬆的分享提示詞模板，只要輸入提示詞的名稱、說明和模板，並點擊產生分享連結，即可完成分享。更棒的是，啟用 Promptium
                 的進階功能後，還能將使用案例一併分享出去。
@@ -117,7 +116,7 @@
         </div>
         <div class="row mb-2">
             <div class="col-12">
-                <h2 class="fs-6 mb-3">開始製作</h2>
+                <h2 class="fs-6 mb-3 fw-bold">開始製作</h2>
                 <div class="form-floating mb-2">
                     <input type="text" class="form-control name-input" id="nameInput1" placeholder="提示詞的名稱"
                         value="翻譯名言佳句">
@@ -154,7 +153,7 @@
         <div class="row collapse" id="advanceSection">
             <div class="col-12 mb-3">
                 <div class="card p-4">
-                    <h2 class="fs-6 mb-3">學習使用</h2>
+                    <h2 class="fs-6 mb-3 fw-bold">學習使用</h2>
                     <p class="m-0 mb-3">
                         當我們開心的分享提示詞模板時，被分享的人經常無法想像要如何使用，而 Promptium 就是為此誕生。只要依照範例輸入簡化後的 XML
                         標記，點擊按鈕後就會自動產生使用案例（最多 50 筆），點擊測試按鈕後，甚至可以立刻在 ChatGPT 上檢視效果。
@@ -192,10 +191,17 @@
 
     </div>
 
-    <footer class="mt-auto text-white-50 bg-dark text-center position-relative" style="height: 50px;">
-        <p class="position-absolute top-50 start-50 translate-middle">
-            Create by Chen Chung Nien
-        </p>
+    <footer class="mt-auto text-white-50 bg-dark text-center d-flex justify-content-center align-items-center"
+        style="height: 50px;">
+        <a class="mx-2 link-light" target="_blank" href="https://x.com/lloyd3126">
+            Made by Chen Chung Nien
+        </a>
+        <a class="mx-2 link-light" target="_blank" href="https://prompter.fofr.ai/">
+            Inspired by @fofrAI
+        </a>
+        <a class="mx-2 link-light" target="_blank" href="https://buymeacoffee.com/niencc">
+            Buy me a coffee
+        </a>
     </footer>
 
     <!-- Modal for Share Link -->
@@ -236,8 +242,11 @@
                     const keys = Object.keys(examples).sort();
 
                     keys.forEach(key => {
+
                         const item = examples[key];
-                        let { name, advance, prompt } = item;
+                        let { name, advance, prompt, example } = item;
+
+                        if (!example) return
 
                         const div = document.createElement('div');
                         div.className = 'list-group-item list-group-item-action link-dark';

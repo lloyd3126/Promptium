@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promptium｜輕鬆分享提示詞模板</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Racing+Sans+One&display=swap"
+        rel="stylesheet">
+    <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico">
+    <style>
+        * {
+            font-family: "Noto Sans Mono", "Noto Sans TC", sans-serif;
+        }
+
+        h1 {
+            font-family: "Racing Sans One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 64px;
+            user-select: none;
+            /* 標準屬性 */
+            -webkit-user-select: none;
+            /* Safari */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+        }
+
+        p {
+            line-height: 1.5 !important;
+        }
+
+        /* 新增：當滑鼠懸停在 <a> 標籤時，顯示手形指標 */
+        a:hover h1,
+        .list-group {
+            cursor: pointer;
+        }
+
+        /* 可選：改變 <a> 標籤的顏色以符合設計需求 */
+        a.text-decoration-none h1 {
+            color: inherit;
+            /* 繼承父元素的文字顏色 */
+        }
+
+        /* 可選：調整預覽框的樣式 */
+        .preview-box {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* 自動調整 textarea 高度 */
+        textarea {
+            overflow: hidden;
+            resize: none;
+            overflow-x: auto !important;
+            white-space: pre !important;
+            line-height: 1.5 !important;
+            /* 移除 height 和 min-height，讓 autosize 控制高度 */
+        }
+
+        .form-floating>.form-control:focus~label,
+        .form-floating>.form-control:not(:placeholder-shown)~label,
+        .form-floating>.form-select~label {
+            opacity: .65;
+            transform: scale(.60) translateY(-.5rem) translateX(.15rem);
+        }
+
+        /* 隱藏置換結果區域 */
+        #replacementResultsSection {
+            display: none;
+        }
+
+        /* 隱藏進階功能區域，使用 Bootstrap 的 collapse */
+        /* 無需額外 CSS，Bootstrap 已處理 */
+    </style>
+</head>
+
+<body>
+    <div class="container px-5 pt-5" style="max-width: 56rem; min-height: 102vh;">
+        <div class="row mb-4">
+            <div class="row mb-4">
+                <a href="/" class="text-decoration-none link-dark">
+                    <h1 class="text-center no-select">Promptium</h1>
+                </a>
+            </div>
+        </div>
+        <div class="row mb-4">
+            <h2 class="fs-6 mb-3 fw-bold">如何使用</h2>
+            <p>
+                使用 Promptium 可以輕鬆的分享提示詞模板，只要輸入提示詞的名稱、說明和模板，並點擊產生分享連結，即可完成分享。更棒的是，啟用 Promptium
+                的進階功能後，還能將使用案例一併分享出去。
+            </p>
+            <p class="m-0">
+                <a class="btn btn-dark btn-sm" href="./index.html" role="button">
+                    返回首頁
+                </a>
+            </p>
+        </div>
+        <div id="typeSections">
+            <!-- 動態生成的類型區塊將插入在這裡 -->
+        </div>
+    </div>
+    <footer class="mt-auto text-white-50 bg-dark text-center d-flex justify-content-center align-items-center"
+        style="height: 50px;">
+        <a class="mx-2 link-light" target="_blank" href="https://x.com/lloyd3126">
+            Made by Chen Chung Nien
+        </a>
+        <a class="mx-2 link-light" target="_blank" href="https://prompter.fofr.ai/">
+            Inspired by @fofrAI
+        </a>
+        <a class="mx-2 link-light" target="_blank" href="https://buymeacoffee.com/niencc">
+            Buy me a coffee
+        </a>
+    </footer>
+    <script>
+        (function () {
+            fetch('example.json')
+                .then(response => response.json())
+                .then(examples => {
+                    // 取得所有 key 並排序
+                    const keys = Object.keys(examples).sort();
+
+                    // 使用 Map 來分組不同的 type
+                    const typeMap = new Map();
+
+                    keys.forEach(key => {
+                        const item = examples[key];
+                        const { type } = item;
+
+                        if (!typeMap.has(type)) {
+                            typeMap.set(type, []);
+                        }
+                        typeMap.get(type).push(item);
+                    });
+
+                    console.log(typeMap)
+
+                    // 取得 typeSections 容器
+                    const typeSections = document.getElementById('typeSections');
+
+                    // 遍歷每個 type 並創建相應的區塊
+                    typeMap.forEach((items, type) => {
+                        const filteredItems = Object.entries(items)
+                            .filter(([key, value]) => value.explore === true);
+                        if (filteredItems.length < 1) return
+                        // 創建區塊的 row
+                        const row = document.createElement('div');
+                        row.className = 'row mb-4';
+
+                        // 創建 col-12
+                        const col = document.createElement('div');
+                        col.className = 'col-12';
+
+                        // 創建標題
+                        const h2 = document.createElement('h2');
+                        h2.className = 'fs-6 mb-3 fw-bold';
+                        h2.textContent = type;
+
+                        // 創建立 flex 容器
+                        const flexContainer = document.createElement('div');
+                        flexContainer.className = 'd-flex flex-wrap';
+
+                        // 創建內部的 col-12 和 list-group
+                        const innerCol = document.createElement('div');
+                        innerCol.className = 'col-12';
+
+                        const listGroup = document.createElement('div');
+                        listGroup.className = 'list-group';
+
+                        innerCol.appendChild(listGroup);
+                        flexContainer.appendChild(innerCol);
+                        col.appendChild(h2);
+                        col.appendChild(flexContainer);
+                        row.appendChild(col);
+                        typeSections.appendChild(row);
+
+                        // 遍歷當前 type 的所有項目
+                        items.forEach(item => {
+                            const { name, advance, prompt, explore } = item;
+
+                            if (!explore) return;
+
+                            const listItem = document.createElement('div');
+                            listItem.className = 'list-group-item list-group-item-action link-dark';
+                            listItem.textContent = name;
+
+                            listItem.addEventListener('click', () => {
+                                let url;
+                                if (advance) {
+                                    url = `./?advance=true#prompt/${prompt}`;
+                                } else {
+                                    url = `./#prompt/${prompt}`;
+                                }
+                                // 導向新 URL 後強制重整
+                                window.location.href = url;
+                            });
+
+                            listGroup.appendChild(listItem);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching example.json:', error);
+                });
+        })();
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
