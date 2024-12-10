@@ -39,6 +39,8 @@
         textarea {
             overflow: hidden;
             resize: none;
+            overflow-x: auto !important;
+            white-space: pre !important;
             /* 移除 height 和 min-height，讓 autosize 控制高度 */
         }
 
@@ -66,9 +68,19 @@
         </div>
         <div class="row mb-4">
             <h2 class="fs-6 mb-3">如何使用</h2>
-            <p class="m-0">
+            <p>
                 使用 Promptium 可以輕鬆的分享提示詞模板，只要輸入提示詞的名稱、說明和模板，並點擊產生分享連結，即可完成分享。
             </p>
+            <p class="m-0">
+                <a class="btn btn-dark btn-sm" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                    aria-expanded="false" aria-controls="collapseExample">
+                    查看大家怎麼做
+                </a>
+            </p>
+            <div class="collapse mt-3" id="collapseExample">
+                <div class="list-group">
+                </div>
+            </div>
         </div>
         <div class="row mb-3">
             <div class="col-12">
@@ -111,7 +123,7 @@
                     <h2 class="fs-6 mb-3">學習使用</h2>
                     <p class="m-0 mb-3">
                         當我們開心的分享提示詞模板時，被分享的人經常無法想像要如何使用，而 Promptium 就是為此誕生。只要依照範例輸入 XML
-                        標記，並點擊下方的按鈕，就會自動產生使用範例。更棒的是，點擊測試以後就可以立刻在 ChatGPT 上檢視效果。
+                        標記，並點擊下方的按鈕，就會自動產生使用範例（最多 50 筆）。更棒的是，點擊測試以後就可以立刻在 ChatGPT 上檢視效果。
                     </p>
                     <!-- 模板置換詞彙 -->
                     <div class=" form-floating">
@@ -178,7 +190,32 @@
     <!-- 引入 autosize 庫 -->
     <script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js"></script>
     <script>
-        // 函數：解析 XML 字串為 JSON
+        (function () {
+            fetch('example.json')
+                .then(response => response.json())
+                .then(examples => {
+                    // 取得 list-group 容器
+                    const listGroup = document.querySelector('.list-group');
+
+                    // 取得所有 key 並排序
+                    const keys = Object.keys(examples).sort();
+
+                    keys.forEach(key => {
+                        const item = examples[key];
+                        let { name, prompt } = item
+                        console.log(name, prompt)
+                        // 建立連結元素
+                        const a = document.createElement('a');
+                        a.href = `./?advance=true#prompt/${prompt}`;
+                        a.className = 'link-dark list-group-item list-group-item-action';
+                        a.textContent = name;
+                        listGroup.appendChild(a);
+                    });
+                });
+        })();
+        /**
+         * 函數：解析 XML 字串為 JSON
+         */
         function parseXMLtoJSON(xmlStr) {
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(`<root>${xmlStr}</root>`, "application/xml");
@@ -200,12 +237,16 @@
             return json;
         }
 
-        // 函數：隨機選取陣列中的一個元素
+        /**
+         * 函數：隨機選取陣列中的一個元素
+         */
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        // 函數：替換模板中的佔位符
+        /**
+         * 函數：替換模板中的佔位符
+         */
         function replaceTemplate(template, replacements) {
             let result = template;
             for (let key in replacements) {
@@ -215,7 +256,9 @@
             return result;
         }
 
-        // 函數：生成所有組合
+        /**
+         * 函數：生成所有組合
+         */
         function generateAllCombinations(obj) {
             const keys = Object.keys(obj);
             if (keys.length === 0) return [];
@@ -240,17 +283,23 @@
             return combinations;
         }
 
-        // Base64 編碼：支持中文
+        /**
+         * Base64 編碼：支持中文
+         */
         function toBase64(str) {
             return btoa(unescape(encodeURIComponent(str)));
         }
 
-        // Base64 解碼：與上面配套
+        /**
+         * Base64 解碼：與上面配套
+         */
         function fromBase64(str) {
             return decodeURIComponent(escape(atob(str)));
         }
 
-        // 從網址中解碼資料並填入表單
+        /**
+         * 從網址中解碼資料並填入表單
+         */
         function decodeFromHash() {
             if (location.hash.startsWith('#prompt/')) {
                 const base64 = location.hash.replace('#prompt/', '');
@@ -282,7 +331,25 @@
             }
         }
 
-        // 函數：處理表單的邏輯
+        /**
+         * 函數：調整 textarea 高度以避免水平捲軸遮擋最後一行文字
+         * @param {HTMLTextAreaElement} textarea - 要調整的 textarea 元素
+         */
+        function adjustHeightForScrollbar(textarea) {
+            // 檢查是否有水平捲軸
+            if (textarea.scrollWidth > textarea.clientWidth) {
+                // 增加固定高度，例如 20px
+                const currentHeight = parseFloat(getComputedStyle(textarea).height);
+                textarea.style.height = (currentHeight + 20) + 'px';
+            } else {
+                // 可選：如果不需要，可以重置高度
+                // 例如：textarea.style.height = null;
+            }
+        }
+
+        /**
+         * 函數：處理表單的邏輯
+         */
         function setupForm() {
             const vocabTextarea = document.getElementById('vocabTextarea1');
             const templateTextarea = document.getElementById('templateTextarea1');
@@ -305,13 +372,21 @@
                     vocabJSON = {};
                     previewText.textContent = "XML 解析錯誤，無法生成預覽。";
                 }
+
+                // textarea 變動後調整高度
+                adjustHeightForScrollbar(vocabTextarea);
             });
 
-            // 當任何 input 或 textarea 有變動時生成預覽
+            // 當任何 input 或 textarea 有變動時生成預覽並調整高度
             const inputs = document.querySelectorAll('input, textarea');
             inputs.forEach(input => {
                 input.addEventListener('input', () => {
                     generatePreview();
+
+                    // 若為 textarea，則在輸入變動後調整高度
+                    if (input.tagName.toLowerCase() === 'textarea') {
+                        adjustHeightForScrollbar(input);
+                    }
                 });
             });
 
@@ -319,6 +394,7 @@
             function generatePreview() {
                 if (Object.keys(vocabJSON).length === 0) {
                     previewText.textContent = "請輸入有效的模板置換詞彙以生成預覽。";
+                    adjustHeightForScrollbar(previewText.parentElement); // 更新預覽區域高度
                     return;
                 }
                 const replacements = {};
@@ -328,6 +404,9 @@
                 const template = templateTextarea.value;
                 const replaced = replaceTemplate(template, replacements);
                 previewText.textContent = replaced;
+
+                // 預覽更新後檢查水平捲軸
+                adjustHeightForScrollbar(previewText.parentElement);
             }
 
             // 使用 autosize 進行自動調整
@@ -335,10 +414,13 @@
             autosize(textareas);
             textareas.forEach(textarea => autosize.update(textarea));
 
-            // 手動嘗試從 hash 解碼資料填入表單
+            // 初次執行一次調整
+            textareas.forEach(textarea => adjustHeightForScrollbar(textarea));
+
+            // 從 hash 載入資料
             decodeFromHash();
 
-            // 手動觸發一次 input 事件，以解析預設值或hash資料並生成預覽
+            // 手動觸發一次輸入事件以初始化預覽
             vocabTextarea.dispatchEvent(new Event('input'));
 
             // 為「產生隨機預覽」按鈕添加點擊事件監聽器
@@ -353,8 +435,35 @@
                     return;
                 }
 
-                // 生成所有組合
-                const combinations = generateAllCombinations(vocabJSON);
+                // 計算總組合數量
+                const totalCombinations = Object.values(vocabJSON).reduce((acc, arr) => acc * arr.length, 1);
+                const maxCombinations = 50;
+                let combinations = [];
+
+                if (totalCombinations <= maxCombinations) {
+                    // 若組合總數量 <= 50，則直接產生所有組合
+                    combinations = generateAllCombinations(vocabJSON);
+                } else {
+                    // 若組合總數量 > 50，則隨機產生 50 組不重複的組合
+                    // 為防止無限迴圈，設定最大嘗試次數為1000次，依需求可自行調整
+                    const maxAttempts = 1000;
+                    let attempts = 0;
+                    while (combinations.length < maxCombinations && attempts < maxAttempts) {
+                        attempts++;
+                        const combo = {};
+                        for (let key in vocabJSON) {
+                            combo[key] = getRandomElement(vocabJSON[key]);
+                        }
+
+                        // 檢查組合是否已存在
+                        const comboStr = JSON.stringify(combo);
+                        if (!combinations.some(c => JSON.stringify(c) === comboStr)) {
+                            combinations.push(combo);
+                        }
+                    }
+
+                    // 若嘗試後未滿 50 組，也會停在目前組合數
+                }
 
                 // 清空之前的結果
                 replacementResults.innerHTML = `
@@ -364,6 +473,7 @@
                 `;
 
                 // 生成並添加每個置換結果
+                const fragment = document.createDocumentFragment();
                 combinations.forEach((combo, index) => {
                     const replacements = {};
                     for (let key in combo) {
@@ -379,17 +489,17 @@
                     row.className = 'row';
 
                     const colText = document.createElement('div');
-                    colText.className = 'col-9';
+                    colText.className = 'col-12 mb-3';
 
                     const textarea = document.createElement('textarea');
                     textarea.className = 'form-control';
                     textarea.readOnly = true;
                     textarea.value = replaced;
-                    textarea.rows = 1; // 初始高度，autosize會調整
+                    textarea.rows = 1; // 初始高度，後續autosize會更新
                     colText.appendChild(textarea);
 
                     const colButton = document.createElement('div');
-                    colButton.className = 'col-3 d-flex gap-2';
+                    colButton.className = 'col-12 d-flex gap-2';
 
                     const copyButton = document.createElement('button');
                     copyButton.className = 'btn btn-dark copyButton w-100';
@@ -406,14 +516,21 @@
                     row.appendChild(colButton);
                     card.appendChild(row);
 
-                    replacementResults.appendChild(card);
-
-                    autosize(textarea);
+                    fragment.appendChild(card);
                 });
+
+                replacementResults.appendChild(fragment);
 
                 const replacementResultsSection = document.getElementById('replacementResultsSection');
                 replacementResultsSection.style.display = 'block';
-                autosize.update(document.querySelectorAll('#replacementResults textarea'));
+
+                // 對新生成的 textarea 應用 autosize
+                const newTextareas = replacementResults.querySelectorAll('textarea');
+                autosize(newTextareas);
+                autosize.update(newTextareas);
+
+                // 檢查所有 textarea 是否出現水平捲軸，並調整高度
+                newTextareas.forEach(textarea => adjustHeightForScrollbar(textarea));
             });
 
             // 複製與測試按鈕事件委託
@@ -441,20 +558,25 @@
                 }
             });
 
+
             // 「產生分享連結」按鈕事件監聽器
             const shareButton = document.getElementById('shareButton');
             const shareLinkTextarea = document.getElementById('shareLinkTextarea');
             const shareCopyAlert = document.getElementById('shareCopyAlert');
 
             shareButton.addEventListener('click', () => {
-                // XSS 防護：確保資料為純文字，並不執行 HTML
+                // 產生一個零寬度字元陣列，將隨機挑一個附加到 name 後面
+                const zeroWidthChars = ['\u200B', '\u200C', '\u200D', '\uFEFF'];
+                const randomZWC = zeroWidthChars[Math.floor(Math.random() * zeroWidthChars.length)];
+
+                // XSS 防護：確保資料為純文字
                 const nameValue = nameInput.value;
                 const descriptionValue = descriptionTextarea.value;
                 const templateValue = templateTextarea.value;
                 const vocabValue = vocabTextarea.value;
 
                 const data = {
-                    name: nameValue.trim(),
+                    name: nameValue.trim() + randomZWC, // 在 name 後附加零寬度字元
                     description: descriptionValue.trim(),
                     template: templateValue.trim(),
                     vocab: vocabValue.trim()
@@ -492,8 +614,69 @@
             });
         }
 
+        /**
+         * 函數：調整元素高度以避免水平捲軸遮擋最後一行文字
+         * @param {HTMLElement} element - 要調整的元素 (textarea 或其他可滾動元素)
+         */
+        function adjustHeightForScrollbar(element) {
+            if (!element) return;
+            // 使用 setTimeout 確保在樣式與 autosize 更新後再檢查
+            setTimeout(() => {
+                // 偵測是否有水平捲軸
+                if (element.scrollWidth > element.clientWidth) {
+                    // 使用 offsetHeight 取得目前高度
+                    const currentHeight = element.offsetHeight;
+                    // 增加一些高度，例如增加20px
+                    element.style.height = (currentHeight + 20) + 'px';
+                }
+                // 若無水平捲軸，若有需要也可恢復預設高度（視需求決定是否要執行）
+                // else {
+                //     element.style.height = null;
+                // }
+            }, 0);
+        }
+
+        /**
+         * 當 DOM 內容加載完成後，初始化表單和按鈕
+         */
         document.addEventListener('DOMContentLoaded', () => {
             setupForm();
+
+            // 抓取要套用此功能的元素
+            const descriptionTextarea = document.getElementById('descriptionTextarea1');
+            const templateTextarea = document.getElementById('templateTextarea1');
+            const vocabTextarea = document.getElementById('vocabTextarea1');
+            const previewPre = document.querySelector('.preview-box pre');
+
+            // 對指定的元素執行檢查並調整高度
+            adjustHeightForScrollbar(descriptionTextarea);
+            adjustHeightForScrollbar(templateTextarea);
+            adjustHeightForScrollbar(vocabTextarea);
+            adjustHeightForScrollbar(previewPre);
+
+            // 若預覽文字會隨內容變動，請在更新預覽內容後再次呼叫
+            // 例如在 generatePreview() 函式的最後加入:
+            // adjustHeightForScrollbar(previewPre);
+
+            // 如果預覽內容在 generatePreview() 中更新，則修改 generatePreview：
+            function generatePreview() {
+                if (Object.keys(vocabJSON).length === 0) {
+                    previewText.textContent = "請輸入有效的模板置換詞彙以生成預覽。";
+                    // 更新完內容後再次檢查
+                    adjustHeightForScrollbar(previewPre);
+                    return;
+                }
+                const replacements = {};
+                for (let key in vocabJSON) {
+                    replacements[key] = getRandomElement(vocabJSON[key]);
+                }
+                const template = templateTextarea.value;
+                const replaced = replaceTemplate(template, replacements);
+                previewText.textContent = replaced;
+
+                // 預覽更新後檢查水平捲軸
+                adjustHeightForScrollbar(previewPre);
+            }
 
             const advanceButton = document.getElementById('advanceButton');
             const advanceSection = document.getElementById('advanceSection');
@@ -506,6 +689,8 @@
                 advanceButton.textContent = '關閉進階功能';
                 // 更新 autosize 高度
                 autosize.update(document.getElementById('vocabTextarea1'));
+                // 調整高度以避免水平捲軸
+                adjustHeightForScrollbar(document.getElementById('vocabTextarea1'));
             });
 
             // 監聽進階區域的隱藏事件
@@ -528,6 +713,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"></script>
+
 </body>
 
 </html>
