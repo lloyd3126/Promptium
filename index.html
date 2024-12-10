@@ -87,7 +87,7 @@
 </head>
 
 <body>
-    <div class="container p-5" style="max-width: 56rem; min-height: 120vh;">
+    <div class="container px-5 pt-5" style="max-width: 56rem; min-height: 102vh;">
         <div class="row mb-4">
             <div class="row mb-4">
                 <a href="/" class="text-decoration-none link-dark">
@@ -104,7 +104,10 @@
             <p class="m-0">
                 <a class="btn btn-dark btn-sm" data-bs-toggle="collapse" href="#collapseExample" role="button"
                     aria-expanded="false" aria-controls="collapseExample">
-                    一探究竟
+                    使用範例
+                </a>
+                <a class="btn btn-dark btn-sm" href="./explore.html" role="button">
+                    作者收藏
                 </a>
             </p>
             <div class="collapse mt-3" id="collapseExample">
@@ -112,16 +115,16 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-2">
             <div class="col-12">
                 <h2 class="fs-6 mb-3">開始製作</h2>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-2">
                     <input type="text" class="form-control name-input" id="nameInput1" placeholder="提示詞的名稱"
                         value="翻譯名言佳句">
                     <label for="nameInput1">提示詞的名稱</label>
                 </div>
                 <!-- 提示詞說明 -->
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-2">
                     <textarea class="form-control description-textarea" id="descriptionTextarea1"
                         placeholder="提示詞的說明">這是一個翻譯名言佳句的提示詞模板。</textarea>
                     <label for="descriptionTextarea1">提示詞的說明</label>
@@ -135,8 +138,8 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-3">
-            <div class="col-12 mb-3">
+        <div class="row mb-2">
+            <div class="col-12 mb-2">
                 <button type="button" id="shareButton" class="btn btn-dark w-100">產生分享連結</button>
             </div>
             <div class="col-12">
@@ -157,27 +160,25 @@
                         標記，點擊按鈕後就會自動產生使用案例（最多 50 筆），點擊測試按鈕後，甚至可以立刻在 ChatGPT 上檢視效果。
                     </p>
                     <!-- 模板置換詞彙 -->
-                    <div class=" form-floating">
+                    <div class="form-floating">
                         <textarea class="form-control vocab-textarea" id="vocabTextarea1" placeholder="模板置換詞彙"
                             style="height: 118px;"></textarea>
                         <label for="vocabTextarea1">模板置換詞彙</label>
                     </div>
                     <!-- 置換結果預覽 -->
-                    <div class="preview-box alert alert-secondary pb-0 mb-3" role="alert">
+                    <div class="preview-box alert alert-secondary pb-0 mb-2 mt-2" role="alert">
                         <h6 class="alert-heading">置換結果預覽</h6>
                         <pre class="preview-text"></pre>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-6">
+                    <div class="row">
+                        <div class="col-12 d-flex gap-2">
                             <button type="button" id="generateNewPreviewButton"
                                 class="btn btn-dark w-100">產生隨機預覽</button>
-                        </div>
-                        <div class="col-6">
                             <button type="button" id="generateAllPreviewButton"
                                 class="btn btn-dark w-100">產生置換結果</button>
                         </div>
                     </div>
-                    <div class="row" id="replacementResultsSection">
+                    <div class="row mt-2" id="replacementResultsSection">
                         <div class="col-12" id="replacementResults">
                             <div class="mt-3" id="copyAlert" style="display: none;" class="alert alert-success">
                                 已成功複製到剪貼簿！
@@ -190,6 +191,12 @@
         </div>
 
     </div>
+
+    <footer class="mt-auto text-white-50 bg-dark text-center position-relative" style="height: 50px;">
+        <p class="position-absolute top-50 start-50 translate-middle">
+            Create by Chen Chung Nien
+        </p>
+    </footer>
 
     <!-- Modal for Share Link -->
     <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
@@ -532,13 +539,13 @@
                     const replaced = replaceTemplate(template, replacements);
 
                     const card = document.createElement('div');
-                    card.className = 'card w-100 p-4 mb-3';
+                    card.className = 'card w-100 p-4 mb-2';
 
                     const row = document.createElement('div');
                     row.className = 'row';
 
                     const colText = document.createElement('div');
-                    colText.className = 'col-12 mb-3';
+                    colText.className = 'col-12 mb-2';
 
                     const textarea = document.createElement('textarea');
                     textarea.className = 'form-control';
