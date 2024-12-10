@@ -461,7 +461,12 @@
                 const jsonStr = JSON.stringify(data);
                 const base64 = toBase64(jsonStr);
 
-                const shareURL = `${window.location.origin}${window.location.pathname}#prompt/${base64}`;
+                let searchParams = '';
+                if (templateValue.includes('<') && templateValue.includes('>')) {
+                    searchParams = '?advance=true';
+                }
+
+                const shareURL = `${window.location.origin}${window.location.pathname}${searchParams}#prompt/${base64}`;
                 shareLinkTextarea.value = shareURL;
 
                 // 更換目前的網址
@@ -505,6 +510,17 @@
             advanceSection.addEventListener('hidden.bs.collapse', () => {
                 advanceButton.textContent = '開啟進階功能';
             });
+
+            // === 新增程式碼開始 ===
+            // 檢查 URL 參數中是否有 ?advance=true
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('advance') === 'true') {
+                // 若為 true，則顯示進階區域
+                const bsCollapse = new bootstrap.Collapse(advanceSection, {
+                    show: true
+                });
+            }
+            // === 新增程式碼結束 ===
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
