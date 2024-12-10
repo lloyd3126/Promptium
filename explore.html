@@ -124,7 +124,7 @@
     </footer>
     <script>
         (function () {
-            fetch('example.json')
+            fetch('example.json?v=' + new Date().getTime())
                 .then(response => response.json())
                 .then(examples => {
                     // 取得所有 key 並排序
