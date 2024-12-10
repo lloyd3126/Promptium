@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promptium｜輕鬆分享提示詞模板</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Racing+Sans+One&display=swap"
+        rel="stylesheet">
+    <style>
+        h1 {
+            font-family: "Racing Sans One", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+            font-size: 64px;
+        }
+
+        * {
+            font-family: "Noto Sans Mono", "Noto Sans TC", sans-serif;
+        }
+
+        /* 可選：調整預覽框的樣式 */
+        .preview-box {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            margin-top: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* 自動調整 textarea 高度 */
+        textarea {
+            overflow: hidden;
+            resize: none;
+            /* 移除 height 和 min-height，讓 autosize 控制高度 */
+        }
+
+        .form-floating>.form-control:focus~label,
+        .form-floating>.form-control:not(:placeholder-shown)~label,
+        .form-floating>.form-select~label {
+            opacity: .65;
+            transform: scale(.60) translateY(-.5rem) translateX(.15rem);
+        }
+
+        /* 隱藏置換結果區域 */
+        #replacementResultsSection {
+            display: none;
+        }
+
+        /* 隱藏進階功能區域，使用 Bootstrap 的 collapse */
+        /* 無需額外 CSS，Bootstrap 已處理 */
+    </style>
+</head>
+
+<body>
+    <div class="container p-5" style="max-width: 56rem; min-height: 120vh;">
+        <div class="row mb-4">
+            <h1 class="text-center">Promptium</h1>
+        </div>
+        <div class="row mb-4">
+            <h2 class="fs-6 mb-3">如何使用</h2>
+            <p class="m-0">
+                使用 Promptium 可以輕鬆的分享提示詞模板，只要輸入提示詞的名稱、說明和模板，並點擊產生分享連結，即可完成分享。
+            </p>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12">
+                <h2 class="fs-6 mb-3">開始製作</h2>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control name-input" id="nameInput1" placeholder="提示詞的名稱"
+                        value="翻譯高手">
+                    <label for="nameInput1">提示詞的名稱</label>
+                </div>
+                <!-- 提示詞說明 -->
+                <div class="form-floating mb-3">
+                    <textarea class="form-control description-textarea" id="descriptionTextarea1" placeholder="提示詞的說明">這是第一行。
+這是第二行。</textarea>
+                    <label for="descriptionTextarea1">提示詞的說明</label>
+                </div>
+                <!-- 提示詞模板 -->
+                <div class="form-floating">
+                    <textarea class="form-control template-textarea" id="templateTextarea1"
+                        placeholder="提示詞的模板">請扮演&lt;character&gt;翻譯成&lt;language&gt;。</textarea>
+                    <label for="templateTextarea1">提示詞的模板</label>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-12 mb-3">
+                <button type="button" id="shareButton" class="btn btn-dark w-100">產生分享連結</button>
+            </div>
+            <div class="col-12">
+                <!-- 更新按鈕，添加 Bootstrap 的 Collapse 屬性 -->
+                <button type="button" id="advanceButton" class="btn btn-dark w-100" data-bs-toggle="collapse"
+                    data-bs-target="#advanceSection" aria-expanded="false" aria-controls="advanceSection">
+                    開啟進階功能
+                </button>
+            </div>
+        </div>
+        <!-- 更新進階功能區域，添加 collapse 類別 -->
+        <div class="row collapse" id="advanceSection">
+            <div class="col-12 mb-3">
+                <div class="card p-4">
+                    <h2 class="fs-6 mb-3">學習使用</h2>
+                    <p class="m-0 mb-3">
+                        當我們開心的分享提示詞模板時，被分享的人經常無法想像要如何使用，而 Promptium 就是為此誕生。只要依照範例輸入 XML
+                        標記，並點擊下方的按鈕，就會自動產生使用範例。更棒的是，點擊測試以後就可以立刻在 ChatGPT 上檢視效果。
+                    </p>
+                    <!-- 模板置換詞彙 -->
+                    <div class=" form-floating">
+                        <textarea class="form-control vocab-textarea" id="vocabTextarea1" placeholder="模板置換詞彙"
+                            style="height: 118px;">&lt;character&gt;老師&lt;/character&gt;
+&lt;character&gt;饒舌歌手&lt;/character&gt;
+&lt;language&gt;中文&lt;/language&gt;
+&lt;language&gt;英文&lt;/language&gt;</textarea>
+                        <label for="vocabTextarea1">模板置換詞彙</label>
+                    </div>
+                    <!-- 置換結果預覽 -->
+                    <div class="preview-box alert alert-secondary pb-0 mb-3" role="alert">
+                        <h6 class="alert-heading">置換結果預覽</h6>
+                        <pre class="preview-text">請扮演老師翻譯成中文。</pre>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <button type="button" id="generateNewPreviewButton"
+                                class="btn btn-dark w-100">產生隨機預覽</button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button" id="generateAllPreviewButton"
+                                class="btn btn-dark w-100">產生置換結果</button>
+                        </div>
+                    </div>
+                    <div class="row" id="replacementResultsSection">
+                        <div class="col-12" id="replacementResults">
+                            <div class="mt-3" id="copyAlert" style="display: none;" class="alert alert-success">
+                                已成功複製到剪貼簿！
+                            </div>
+                            <!-- 置換結果將動態生成於此處 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal for Share Link -->
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">分享連結</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="m-0">以下為您的分享連結：</p>
+                    <div class="form-floating mt-3">
+                        <textarea class="form-control" id="shareLinkTextarea" style="height: 100px;"
+                            readonly></textarea>
+                        <label for="shareLinkTextarea">分享連結</label>
+                    </div>
+                    <div class="alert alert-success mt-3" id="shareCopyAlert" style="display:none;">已成功複製連結！</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="copyShareLinkButton" class="btn btn-dark">複製連結</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 引入 autosize 庫 -->
+    <script src="https://cdn.jsdelivr.net/npm/autosize@4.0.2/dist/autosize.min.js"></script>
+    <script>
+        // 函數：解析 XML 字串為 JSON
+        function parseXMLtoJSON(xmlStr) {
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(`<root>${xmlStr}</root>`, "application/xml");
+            const parserError = xmlDoc.getElementsByTagName("parsererror");
+            if (parserError.length > 0) {
+                console.error("XML 解析錯誤:", parserError[0].textContent);
+                return null;
+            }
+            const json = {};
+            const children = xmlDoc.documentElement.children;
+            for (let child of children) {
+                const tagName = child.tagName;
+                const textContent = child.textContent;
+                if (!json[tagName]) {
+                    json[tagName] = [];
+                }
+                json[tagName].push(textContent);
+            }
+            return json;
+        }
+
+        // 函數：隨機選取陣列中的一個元素
+        function getRandomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        // 函數：替換模板中的佔位符
+        function replaceTemplate(template, replacements) {
+            let result = template;
+            for (let key in replacements) {
+                const regex = new RegExp(`<${key}>`, 'g');
+                result = result.replace(regex, replacements[key]);
+            }
+            return result;
+        }
+
+        // 函數：生成所有組合
+        function generateAllCombinations(obj) {
+            const keys = Object.keys(obj);
+            if (keys.length === 0) return [];
+
+            // 使用遞迴生成組合
+            const combinations = [];
+
+            function helper(index, current) {
+                if (index === keys.length) {
+                    combinations.push({ ...current });
+                    return;
+                }
+                const key = keys[index];
+                const values = obj[key];
+                for (let value of values) {
+                    current[key] = value;
+                    helper(index + 1, current);
+                }
+            }
+
+            helper(0, {});
+            return combinations;
+        }
+
+        // Base64 編碼：支持中文
+        function toBase64(str) {
+            return btoa(unescape(encodeURIComponent(str)));
+        }
+
+        // Base64 解碼：與上面配套
+        function fromBase64(str) {
+            return decodeURIComponent(escape(atob(str)));
+        }
+
+        // 從網址中解碼資料並填入表單
+        function decodeFromHash() {
+            if (location.hash.startsWith('#prompt/')) {
+                const base64 = location.hash.replace('#prompt/', '');
+                try {
+                    const jsonStr = fromBase64(base64);
+                    const data = JSON.parse(jsonStr);
+
+                    const nameInput = document.getElementById('nameInput1');
+                    const descriptionTextarea = document.getElementById('descriptionTextarea1');
+                    const templateTextarea = document.getElementById('templateTextarea1');
+                    const vocabTextarea = document.getElementById('vocabTextarea1');
+
+                    // 將資料填回表單
+                    nameInput.value = data.name || '';
+                    descriptionTextarea.value = data.description || '';
+                    templateTextarea.value = data.template || '';
+                    vocabTextarea.value = data.vocab || '';
+
+                    // 更新 autosize
+                    autosize.update(descriptionTextarea);
+                    autosize.update(templateTextarea);
+                    autosize.update(vocabTextarea);
+
+                    // 觸發一次 input 事件以便更新預覽
+                    vocabTextarea.dispatchEvent(new Event('input'));
+                } catch (e) {
+                    console.error("解碼時發生錯誤: ", e);
+                }
+            }
+        }
+
+        // 函數：處理表單的邏輯
+        function setupForm() {
+            const vocabTextarea = document.getElementById('vocabTextarea1');
+            const templateTextarea = document.getElementById('templateTextarea1');
+            const previewText = document.querySelector('.preview-text');
+            const nameInput = document.getElementById('nameInput1');
+            const descriptionTextarea = document.getElementById('descriptionTextarea1');
+            const replacementResults = document.getElementById('replacementResults');
+            const copyAlert = document.getElementById('copyAlert');
+
+            let vocabJSON = {};
+
+            // 當模板置換詞彙有變動時解析 XML
+            vocabTextarea.addEventListener('input', () => {
+                const xmlStr = vocabTextarea.value;
+                const parsed = parseXMLtoJSON(xmlStr);
+                if (parsed) {
+                    vocabJSON = parsed;
+                    generatePreview();
+                } else {
+                    vocabJSON = {};
+                    previewText.textContent = "XML 解析錯誤，無法生成預覽。";
+                }
+            });
+
+            // 當任何 input 或 textarea 有變動時生成預覽
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', () => {
+                    generatePreview();
+                });
+            });
+
+            // 函數：生成預覽
+            function generatePreview() {
+                if (Object.keys(vocabJSON).length === 0) {
+                    previewText.textContent = "請輸入有效的模板置換詞彙以生成預覽。";
+                    return;
+                }
+                const replacements = {};
+                for (let key in vocabJSON) {
+                    replacements[key] = getRandomElement(vocabJSON[key]);
+                }
+                const template = templateTextarea.value;
+                const replaced = replaceTemplate(template, replacements);
+                previewText.textContent = replaced;
+            }
+
+            // 使用 autosize 進行自動調整
+            const textareas = document.querySelectorAll('textarea');
+            autosize(textareas);
+            textareas.forEach(textarea => autosize.update(textarea));
+
+            // 手動嘗試從 hash 解碼資料填入表單
+            decodeFromHash();
+
+            // 手動觸發一次 input 事件，以解析預設值或hash資料並生成預覽
+            vocabTextarea.dispatchEvent(new Event('input'));
+
+            // 為「產生隨機預覽」按鈕添加點擊事件監聽器
+            const generateNewPreviewButton = document.getElementById('generateNewPreviewButton');
+            generateNewPreviewButton.addEventListener('click', generatePreview);
+
+            // 為「產生置換結果」按鈕添加點擊事件監聽器
+            const generateAllPreviewButton = document.getElementById('generateAllPreviewButton');
+            generateAllPreviewButton.addEventListener('click', () => {
+                if (Object.keys(vocabJSON).length === 0) {
+                    alert("請輸入有效的模板置換詞彙以生成置換結果。");
+                    return;
+                }
+
+                // 生成所有組合
+                const combinations = generateAllCombinations(vocabJSON);
+
+                // 清空之前的結果
+                replacementResults.innerHTML = `
+                    <div class="mt-3" id="copyAlert" style="display: none;" class="alert alert-success">
+                        已成功複製到剪貼簿！
+                    </div>
+                `;
+
+                // 生成並添加每個置換結果
+                combinations.forEach((combo, index) => {
+                    const replacements = {};
+                    for (let key in combo) {
+                        replacements[key] = combo[key];
+                    }
+                    const template = templateTextarea.value;
+                    const replaced = replaceTemplate(template, replacements);
+
+                    const card = document.createElement('div');
+                    card.className = 'card w-100 p-4 mb-3';
+
+                    const row = document.createElement('div');
+                    row.className = 'row';
+
+                    const colText = document.createElement('div');
+                    colText.className = 'col-9';
+
+                    const textarea = document.createElement('textarea');
+                    textarea.className = 'form-control';
+                    textarea.readOnly = true;
+                    textarea.value = replaced;
+                    textarea.rows = 1; // 初始高度，autosize會調整
+                    colText.appendChild(textarea);
+
+                    const colButton = document.createElement('div');
+                    colButton.className = 'col-3 d-flex gap-2';
+
+                    const copyButton = document.createElement('button');
+                    copyButton.className = 'btn btn-dark copyButton w-100';
+                    copyButton.textContent = '複製';
+
+                    const testButton = document.createElement('button');
+                    testButton.className = 'btn btn-dark testButton w-100';
+                    testButton.textContent = '測試';
+
+                    colButton.appendChild(copyButton);
+                    colButton.appendChild(testButton);
+
+                    row.appendChild(colText);
+                    row.appendChild(colButton);
+                    card.appendChild(row);
+
+                    replacementResults.appendChild(card);
+
+                    autosize(textarea);
+                });
+
+                const replacementResultsSection = document.getElementById('replacementResultsSection');
+                replacementResultsSection.style.display = 'block';
+                autosize.update(document.querySelectorAll('#replacementResults textarea'));
+            });
+
+            // 複製與測試按鈕事件委託
+            const replacementResultsContainer = document.getElementById('replacementResults');
+            replacementResultsContainer.addEventListener('click', (event) => {
+                if (event.target && event.target.classList.contains('copyButton')) {
+                    const button = event.target;
+                    const textarea = button.closest('.card').querySelector('textarea');
+                    textarea.select();
+                    textarea.setSelectionRange(0, 99999);
+                    document.execCommand('copy');
+
+                    copyAlert.style.display = 'block';
+                    setTimeout(() => {
+                        copyAlert.style.display = 'none';
+                    }, 2000);
+                }
+
+                if (event.target && event.target.classList.contains('testButton')) {
+                    const button = event.target;
+                    const textarea = button.closest('.card').querySelector('textarea');
+                    const query = encodeURIComponent(textarea.value);
+                    const url = `https://chatgpt.com/?model=gpt-4o&q=${query}`;
+                    window.open(url, '_blank');
+                }
+            });
+
+            // 「產生分享連結」按鈕事件監聽器
+            const shareButton = document.getElementById('shareButton');
+            const shareLinkTextarea = document.getElementById('shareLinkTextarea');
+            const shareCopyAlert = document.getElementById('shareCopyAlert');
+
+            shareButton.addEventListener('click', () => {
+                // XSS 防護：確保資料為純文字，並不執行 HTML
+                const nameValue = nameInput.value;
+                const descriptionValue = descriptionTextarea.value;
+                const templateValue = templateTextarea.value;
+                const vocabValue = vocabTextarea.value;
+
+                const data = {
+                    name: nameValue.trim(),
+                    description: descriptionValue.trim(),
+                    template: templateValue.trim(),
+                    vocab: vocabValue.trim()
+                };
+
+                const jsonStr = JSON.stringify(data);
+                const base64 = toBase64(jsonStr);
+
+                const shareURL = `${window.location.origin}${window.location.pathname}#prompt/${base64}`;
+                shareLinkTextarea.value = shareURL;
+
+                // 更換目前的網址
+                window.history.replaceState(null, '', shareURL);
+
+                // 顯示 Modal
+                const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+                shareModal.show();
+            });
+
+            // 複製分享連結按鈕
+            const copyShareLinkButton = document.getElementById('copyShareLinkButton');
+            copyShareLinkButton.addEventListener('click', () => {
+                shareLinkTextarea.select();
+                shareLinkTextarea.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                shareCopyAlert.style.display = 'block';
+                setTimeout(() => {
+                    shareCopyAlert.style.display = 'none';
+                }, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupForm();
+
+            const advanceButton = document.getElementById('advanceButton');
+            const advanceSection = document.getElementById('advanceSection');
+
+            // 初始化按鈕文字
+            advanceButton.textContent = '開啟進階功能';
+
+            // 監聽進階區域的顯示事件
+            advanceSection.addEventListener('shown.bs.collapse', () => {
+                advanceButton.textContent = '關閉進階功能';
+                // 更新 autosize 高度
+                autosize.update(document.getElementById('vocabTextarea1'));
+            });
+
+            // 監聽進階區域的隱藏事件
+            advanceSection.addEventListener('hidden.bs.collapse', () => {
+                advanceButton.textContent = '開啟進階功能';
+            });
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
