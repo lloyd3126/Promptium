@@ -15,15 +15,39 @@
     <!-- <link rel="icon" sizes="16x16" href="favicon.ico"> -->
     <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico">
     <style>
+        * {
+            font-family: "Noto Sans Mono", "Noto Sans TC", sans-serif;
+        }
+
         h1 {
             font-family: "Racing Sans One", sans-serif;
             font-weight: 400;
             font-style: normal;
             font-size: 64px;
+            user-select: none;
+            /* 標準屬性 */
+            -webkit-user-select: none;
+            /* Safari */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
         }
 
-        * {
-            font-family: "Noto Sans Mono", "Noto Sans TC", sans-serif;
+        p {
+            line-height: 1.5 !important;
+        }
+
+        /* 新增：當滑鼠懸停在 <a> 標籤時，顯示手形指標 */
+        a:hover h1,
+        .list-group {
+            cursor: pointer;
+        }
+
+        /* 可選：改變 <a> 標籤的顏色以符合設計需求 */
+        a.text-decoration-none h1 {
+            color: inherit;
+            /* 繼承父元素的文字顏色 */
         }
 
         /* 可選：調整預覽框的樣式 */
@@ -41,6 +65,7 @@
             resize: none;
             overflow-x: auto !important;
             white-space: pre !important;
+            line-height: 1.5 !important;
             /* 移除 height 和 min-height，讓 autosize 控制高度 */
         }
 
@@ -64,17 +89,22 @@
 <body>
     <div class="container p-5" style="max-width: 56rem; min-height: 120vh;">
         <div class="row mb-4">
-            <h1 class="text-center">Promptium</h1>
+            <div class="row mb-4">
+                <a href="/" class="text-decoration-none link-dark">
+                    <h1 class="text-center no-select">Promptium</h1>
+                </a>
+            </div>
         </div>
         <div class="row mb-4">
             <h2 class="fs-6 mb-3">如何使用</h2>
             <p>
-                使用 Promptium 可以輕鬆的分享提示詞模板，只要輸入提示詞的名稱、說明和模板，並點擊產生分享連結，即可完成分享。
+                使用 Promptium 可以輕鬆的分享提示詞模板，只要輸入提示詞的名稱、說明和模板，並點擊產生分享連結，即可完成分享。更棒的是，啟用 Promptium
+                的進階功能後，還能將使用案例一併分享出去。
             </p>
             <p class="m-0">
                 <a class="btn btn-dark btn-sm" data-bs-toggle="collapse" href="#collapseExample" role="button"
                     aria-expanded="false" aria-controls="collapseExample">
-                    查看大家怎麼做
+                    一探究竟
                 </a>
             </p>
             <div class="collapse mt-3" id="collapseExample">
@@ -87,19 +117,20 @@
                 <h2 class="fs-6 mb-3">開始製作</h2>
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control name-input" id="nameInput1" placeholder="提示詞的名稱"
-                        value="翻譯高手">
+                        value="翻譯名言佳句">
                     <label for="nameInput1">提示詞的名稱</label>
                 </div>
                 <!-- 提示詞說明 -->
                 <div class="form-floating mb-3">
-                    <textarea class="form-control description-textarea" id="descriptionTextarea1" placeholder="提示詞的說明">這是第一行。
-這是第二行。</textarea>
+                    <textarea class="form-control description-textarea" id="descriptionTextarea1"
+                        placeholder="提示詞的說明">這是一個翻譯名言佳句的提示詞模板。</textarea>
                     <label for="descriptionTextarea1">提示詞的說明</label>
                 </div>
                 <!-- 提示詞模板 -->
                 <div class="form-floating">
-                    <textarea class="form-control template-textarea" id="templateTextarea1"
-                        placeholder="提示詞的模板">請扮演&lt;character&gt;翻譯成&lt;language&gt;。</textarea>
+                    <textarea class="form-control template-textarea" id="templateTextarea1" placeholder="提示詞的模板">請將以下名言佳句翻譯為指定語言。
+指定語言：[請刪除並替換為指定語言]
+名言佳句：[請刪除並替換為名言佳句]</textarea>
                     <label for="templateTextarea1">提示詞的模板</label>
                 </div>
             </div>
@@ -122,22 +153,19 @@
                 <div class="card p-4">
                     <h2 class="fs-6 mb-3">學習使用</h2>
                     <p class="m-0 mb-3">
-                        當我們開心的分享提示詞模板時，被分享的人經常無法想像要如何使用，而 Promptium 就是為此誕生。只要依照範例輸入 XML
-                        標記，並點擊下方的按鈕，就會自動產生使用範例（最多 50 筆）。更棒的是，點擊測試以後就可以立刻在 ChatGPT 上檢視效果。
+                        當我們開心的分享提示詞模板時，被分享的人經常無法想像要如何使用，而 Promptium 就是為此誕生。只要依照範例輸入簡化後的 XML
+                        標記，點擊按鈕後就會自動產生使用案例（最多 50 筆），點擊測試按鈕後，甚至可以立刻在 ChatGPT 上檢視效果。
                     </p>
                     <!-- 模板置換詞彙 -->
                     <div class=" form-floating">
                         <textarea class="form-control vocab-textarea" id="vocabTextarea1" placeholder="模板置換詞彙"
-                            style="height: 118px;">&lt;character&gt;老師&lt;/character&gt;
-&lt;character&gt;饒舌歌手&lt;/character&gt;
-&lt;language&gt;中文&lt;/language&gt;
-&lt;language&gt;英文&lt;/language&gt;</textarea>
+                            style="height: 118px;"></textarea>
                         <label for="vocabTextarea1">模板置換詞彙</label>
                     </div>
                     <!-- 置換結果預覽 -->
                     <div class="preview-box alert alert-secondary pb-0 mb-3" role="alert">
                         <h6 class="alert-heading">置換結果預覽</h6>
-                        <pre class="preview-text">請扮演老師翻譯成中文。</pre>
+                        <pre class="preview-text"></pre>
                     </div>
                     <div class="row mb-3">
                         <div class="col-6">
@@ -202,17 +230,37 @@
 
                     keys.forEach(key => {
                         const item = examples[key];
-                        let { name, prompt } = item
-                        console.log(name, prompt)
-                        // 建立連結元素
-                        const a = document.createElement('a');
-                        a.href = `./?advance=true#prompt/${prompt}`;
-                        a.className = 'link-dark list-group-item list-group-item-action';
-                        a.textContent = name;
-                        listGroup.appendChild(a);
+                        let { name, advance, prompt } = item;
+
+                        const div = document.createElement('div');
+                        div.className = 'list-group-item list-group-item-action link-dark';
+                        div.textContent = name;
+
+                        div.addEventListener('click', () => {
+                            let url;
+                            if (advance) {
+                                url = `./?advance=true#prompt/${prompt}`;
+                            } else {
+                                url = `./#prompt/${prompt}`;
+                            }
+                            // 導向新 URL 後強制重整
+                            window.location.href = url;
+                        });
+
+                        listGroup.appendChild(div);
                     });
                 });
         })();
+
+
+        /**
+         * 函數：處理 URL hash 的變化
+         */
+        function handleHashChange() {
+            decodeFromHash();
+        }
+
+
         /**
          * 函數：解析 XML 字串為 JSON
          */
@@ -304,8 +352,8 @@
             if (location.hash.startsWith('#prompt/')) {
                 const base64 = location.hash.replace('#prompt/', '');
                 try {
-                    const jsonStr = fromBase64(base64);
-                    const data = JSON.parse(jsonStr);
+                    const decodedPrompt = fromBase64(base64);
+                    const data = JSON.parse(decodedPrompt);
 
                     const nameInput = document.getElementById('nameInput1');
                     const descriptionTextarea = document.getElementById('descriptionTextarea1');
@@ -330,6 +378,7 @@
                 }
             }
         }
+
 
         /**
          * 函數：調整 textarea 高度以避免水平捲軸遮擋最後一行文字
@@ -639,6 +688,7 @@
         /**
          * 當 DOM 內容加載完成後，初始化表單和按鈕
          */
+        // 當 DOM 內容加載完成後，初始化表單和按鈕
         document.addEventListener('DOMContentLoaded', () => {
             setupForm();
 
@@ -654,30 +704,7 @@
             adjustHeightForScrollbar(vocabTextarea);
             adjustHeightForScrollbar(previewPre);
 
-            // 若預覽文字會隨內容變動，請在更新預覽內容後再次呼叫
-            // 例如在 generatePreview() 函式的最後加入:
-            // adjustHeightForScrollbar(previewPre);
-
-            // 如果預覽內容在 generatePreview() 中更新，則修改 generatePreview：
-            function generatePreview() {
-                if (Object.keys(vocabJSON).length === 0) {
-                    previewText.textContent = "請輸入有效的模板置換詞彙以生成預覽。";
-                    // 更新完內容後再次檢查
-                    adjustHeightForScrollbar(previewPre);
-                    return;
-                }
-                const replacements = {};
-                for (let key in vocabJSON) {
-                    replacements[key] = getRandomElement(vocabJSON[key]);
-                }
-                const template = templateTextarea.value;
-                const replaced = replaceTemplate(template, replacements);
-                previewText.textContent = replaced;
-
-                // 預覽更新後檢查水平捲軸
-                adjustHeightForScrollbar(previewPre);
-            }
-
+            // 監聽進階區域的顯示與隱藏
             const advanceButton = document.getElementById('advanceButton');
             const advanceSection = document.getElementById('advanceSection');
 
@@ -698,7 +725,6 @@
                 advanceButton.textContent = '開啟進階功能';
             });
 
-            // === 新增程式碼開始 ===
             // 檢查 URL 參數中是否有 ?advance=true
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('advance') === 'true') {
@@ -707,7 +733,9 @@
                     show: true
                 });
             }
-            // === 新增程式碼結束 ===
+
+            // 添加 hashchange 事件監聽器
+            window.addEventListener('hashchange', handleHashChange);
         });
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
