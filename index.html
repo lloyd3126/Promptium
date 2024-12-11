@@ -670,11 +670,19 @@
                 // 更換目前的網址
                 window.history.replaceState(null, '', shareURL);
 
+                const apiKeys = [
+                    '4070ff49d794e73714543b663c974755ecd6b036909a04df8a38b58d65165567c4f5d6',
+                    '4070ff49d794e73714533b663c974755ecd6b036909904df8a38b58d65165567c4f5d6',
+                    '4070ff49d794e73714523b663c974755ecd6b036909804df8a38b58d65165567c4f5d6'
+                ];
+
+                const selectedApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+
                 fetch('https://api.reurl.cc/shorten', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'reurl-api-key': '4070ff49d794e73714543b663c974755ecd6b036909a04df8a38b58d65165567c4f5d6'
+                        'reurl-api-key': selectedApiKey
                     },
                     body: JSON.stringify({
                         "url": shareLinkTextarea.value,
