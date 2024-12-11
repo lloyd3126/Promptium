@@ -31,14 +31,6 @@
         "type": "Example",
         "prompt": "eyJuYW1lIjoi55Sf5oiQ6KGo5oOF6LK85ZyW4oCN4oCNIiwiZGVzY3JpcHRpb24iOiLpgJnmmK/kuIDlgIvnlJ/miJDooajmg4XosrzlnJbnmoTmj5DnpLroqZ7mqKHmnb/jgIIiLCJ0ZW1wbGF0ZSI6IkEgZ3JpZCBvZiBFeHByZXNzaW9uIFJlZmVyZW5jZSBTaGVldCwgXG5zaG93aW5nIHRoZSBzYW1lIDzop5LoibI+J3MgZmFjZSBpbiBtYW55IGRpZmZlcmVudCBlbW90aW9ucywgXG53aXRoIGEgY2xlYW4gd2hpdGUgYmFja2dyb3VuZCBhbmQgaW4gPOe5queVq+miqOagvD4iLCJ2b2NhYiI6Ijzop5LoibI+bWVuPC/op5LoibI+XG486KeS6ImyPndvbWVuPC/op5LoibI+XG486KeS6ImyPmNoaWNrZW48L+inkuiJsj5cbjzop5LoibI+cm9ib3Q8L+inkuiJsj5cbjzop5LoibI+ZG9nPC/op5LoibI+XG486KeS6ImyPmNhdDwv6KeS6ImyPlxuXG4857mq55Wr6aKo5qC8PkFuaW1lIFN0eWxlPC/nuarnlavpoqjmoLw+XG4857mq55Wr6aKo5qC8Pk1hbmdhIFN0eWxlPC/nuarnlavpoqjmoLw+XG4857mq55Wr6aKo5qC8PkNoaWJpIFN0eWxlPC/nuarnlavpoqjmoLw+XG4857mq55Wr6aKo5qC8PkNhcnRvb24gU3R5bGU8L+e5queVq+miqOagvD5cbjznuarnlavpoqjmoLw+V2F0ZXJjb2xvciBTdHlsZTwv57mq55Wr6aKo5qC8PiJ9"
     },
-    "1733816124": {
-        "name": "翻譯名言佳句",
-        "advance": false,
-        "example": false,
-        "explore": true,
-        "type": "ChatGPT",
-        "prompt": "eyJuYW1lIjoi57+76K2v5ZCN6KiA5L2z5Y+l4oCN77u/IiwiZGVzY3JpcHRpb24iOiLpgJnmmK/kuIDlgIvnv7vora/lkI3oqIDkvbPlj6XnmoTmj5DnpLroqZ7mqKHmnb/jgIIiLCJ0ZW1wbGF0ZSI6Iuiri+Wwh+S7peS4i+WQjeiogOS9s+WPpee/u+itr+eCuuaMh+WumuiqnuiogOOAglxu5oyH5a6a6Kqe6KiA77yaW+iri+WIqumZpOS4puabv+aPm+eCuuaMh+WumuiqnuiogF1cbuWQjeiogOS9s+WPpe+8mlvoq4vliKrpmaTkuKbmm7/mj5vngrrlkI3oqIDkvbPlj6VdIiwidm9jYWIiOiIifQ=="
-    },
     "1733816125": {
         "name": "翻譯名言佳句",
         "advance": true,
