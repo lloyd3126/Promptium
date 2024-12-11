@@ -209,20 +209,26 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">分享連結</h5>
+                    <h5 class="modal-title">提示詞連結</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="m-0">以下為您的分享連結：</p>
-                    <div class="form-floating mt-3">
-                        <textarea class="form-control" id="shareLinkTextarea" style="height: 100px;"
-                            readonly></textarea>
-                        <label for="shareLinkTextarea">分享連結</label>
+                    <p>Promptium 提供用戶以下兩種方式進行分享，編輯連結可以永久保存資料，而分享網址則會不定期刪除非活躍連結。建議用戶妥善保管兩種連結，一旦關閉網站，連結將會被清除。</p>
+                    <p class="m-0">編輯連結：</p>
+                    <div class="my-3">
+                        <textarea class="form-control" id="shareLinkTextarea" readonly
+                            style="height: 55px; overflow-y: hidden;"></textarea>
+                    </div>
+                    <p class="m-0">分享網址：</p>
+                    <div class="mt-2">
+                        <textarea class="form-control" id="shortShareLinkTextarea" readonly
+                            style="height: 55px; overflow-y: hidden;"></textarea>
                     </div>
                     <div class="alert alert-success mt-3" id="shareCopyAlert" style="display:none;">已成功複製連結！</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="copyShareLinkButton" class="btn btn-dark">複製連結</button>
+                    <button type="button" id="copyShareLinkButton" class="btn btn-dark">複製編輯連結</button>
+                    <button type="button" id="copyShortShareLinkTextarea" class="btn btn-dark">複製分享連結</button>
                 </div>
             </div>
         </div>
@@ -627,6 +633,9 @@
             // 「產生分享連結」按鈕事件監聽器
             const shareButton = document.getElementById('shareButton');
             const shareLinkTextarea = document.getElementById('shareLinkTextarea');
+            const shortShareLinkTextarea = document.getElementById('shortShareLinkTextarea');
+            const copyShareLinkButton = document.getElementById('copyShareLinkButton');
+            const copyShortShareLinkButton = document.getElementById('copyShortShareLinkTextarea');
             const shareCopyAlert = document.getElementById('shareCopyAlert');
 
             shareButton.addEventListener('click', () => {
@@ -661,16 +670,43 @@
                 // 更換目前的網址
                 window.history.replaceState(null, '', shareURL);
 
+                fetch('https://api.reurl.cc/shorten', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'reurl-api-key': '4070ff49d794e73714543b663c974755ecd6b036909a04df8a38b58d65165567c4f5d6'
+                    },
+                    body: JSON.stringify({
+                        "url": shareLinkTextarea.value,
+                        "utm_source": ""
+                    })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.res === 'success') {
+                            // 將 short_url 寫入 shortShareLinkTextarea
+                            shortShareLinkTextarea.value = data.short_url;
+                        } else {
+                            shortShareLinkTextarea.value = '無法產生短網址';
+                        }
+                    });
+
                 // 顯示 Modal
                 const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
                 shareModal.show();
             });
-
-            // 複製分享連結按鈕
-            const copyShareLinkButton = document.getElementById('copyShareLinkButton');
             copyShareLinkButton.addEventListener('click', () => {
                 shareLinkTextarea.select();
                 shareLinkTextarea.setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                shareCopyAlert.style.display = 'block';
+                setTimeout(() => {
+                    shareCopyAlert.style.display = 'none';
+                }, 2000);
+            });
+            copyShortShareLinkButton.addEventListener('click', () => {
+                shortShareLinkTextarea.select();
+                shortShareLinkTextarea.setSelectionRange(0, 99999);
                 document.execCommand('copy');
                 shareCopyAlert.style.display = 'block';
                 setTimeout(() => {
