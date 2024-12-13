@@ -53,9 +53,17 @@
         "example": false,
         "explore": true,
         "type": "Midjourney",
-        "prompt": "eyJuYW1lIjoi55Sf5oiQIExvZ2/vu78iLCJkZXNjcmlwdGlvbiI6IumAmeaYr+S4gOWAi+ijveS9nCBMb2dvIOeahOaPkOekuuipnuaooeadv+OAgiIsInRlbXBsYXRlIjoiQSA86aKo5qC8Pi1zdHlsZSBsb2dvIG9mIDzlj4PogIPniak+IGluIDzpoY/oibIxPiBhbmQgPOmhj+iJsjI+IGNvbG9ycyBvbiBhIHdoaXRlIGJhY2tncm91bmQsIFxudXNpbmcgc2ltcGxlIHNoYXBlcywgdmVjdG9yIGFydCwgXG53aXRoIG5vIHNoYWRvd3Mgb3IgZ3JhZGllbnQsIGFuZCBzaW1wbGUgZGV0YWlscy4gXG5UaGUgZGVzaWduIGZlYXR1cmVzIGFtcGxlIHdoaXRlIHNwYWNlIGFyb3VuZCB0aGUgZWRnZXMsIFxud2l0aCBhIHByb2Zlc3Npb25hbC1xdWFsaXR5LCBjbGVhbiwgYW5kIHNoYXJwIGZvY3VzLCBhbmQgaGlnaCBjb250cmFzdC5cbi0tYXIgMToxIC0tc3R5bGUgcmF3IC0tdiA2LjEiLCJ2b2NhYiI6IjzpoqjmoLw+bWluaW1hbGlzdGljPC/poqjmoLw+XG486aKo5qC8Pm1vZGVybjwv6aKo5qC8PlxuPOmiqOagvD5hYnN0cmFjdDwv6aKo5qC8PlxuXG485Y+D6ICD54mpPmJhbmFuYTwv5Y+D6ICD54mpPlxuPOWPg+iAg+eJqT50cmVlPC/lj4PogIPniak+XG485Y+D6ICD54mpPmZveDwv5Y+D6ICD54mpPlxuXG486aGP6ImyMT5wYXN0ZWwgcGluazwv6aGP6ImyMT5cbjzpoY/oibIxPmZvcmVzdCBncmVlbjwv6aGP6ImyMT5cbjzpoY/oibIxPmJhYnkgYmx1ZTwv6aGP6ImyMT5cblxuPOmhj+iJsjI+c29mdCBicm93bjwv6aGP6ImyMj5cbjzpoY/oibIyPnNvZnQgZ3JheTwv6aGP6ImyMj5cbjzpoY/oibIyPnNvZnQgeWVsbG93PC/poY/oibIyPiJ9"
+        "prompt": "eyJuYW1lIjoi6KO95L2c6LK857SZ4oCMIiwiZGVzY3JpcHRpb24iOiLpgJnmmK/kuIDlgIvoo73kvZzosrzntJnnmoTmj5DnpLroqZ7mqKHmnb/jgIIiLCJ0ZW1wbGF0ZSI6IkEgaWxsdXN0cmF0aW9uIHN0aWNrZXIgb2YgYSA86LK857SZ5YWD57SgPiB3aXRoIGRpZSBjdXQgZWRnZXMuIFxuVGhlIHN0aWNrZXIgaGFzIGEgbGlnaHQgZ3JheSBiYWNrZ3JvdW5kIHdpdGggYW1wbGUgc3BhY2UgYXJvdW5kIHRoZSBlZGdlcyBmb3Igc3RhYmlsaXR5LiBcblRoZSBkZXNpZ24gZmVhdHVyZXMgaGlnaCBjb250cmFzdCBhbmQgc2hhcnAgZm9jdXMuIFxuVGhlIGRpZSBjdXQgZm9sbG93cyB0aGUgb3ZlcmFsbCBjb250b3VyIGJ1dCBzaW1wbGlmaWVzIGludHJpY2F0ZSBhcmVhcywgZW5zdXJpbmcgZHVyYWJpbGl0eS4gXG5Sb3VuZGVkIGNvcm5lcnMgYW5kIHNsaWdodGx5IHRoaWNrZW5lZCBvdXRsaW5lcyBpbiBkZWxpY2F0ZSBwYXJ0cyBlbmhhbmNlIHN0YWJpbGl0eSBhbmQgZWFzZSBvZiBjdXR0aW5nLiBcblRoZSBiYWNrZ3JvdW5kIGFuZCBlZGdlcyBtYWludGFpbiBhIGNsZWFuIGFuZCBwcm9mZXNzaW9uYWwgbG9vay4gXG4tLWFyIDI6MyAtLXN0eWxlIHJhdyIsInZvY2FiIjoiPOiyvOe0meWFg+e0oD5SYWJiaXQ8L+iyvOe0meWFg+e0oD5cbjzosrzntJnlhYPntKA+U2FudGEgQ2xhdXNlPC/osrzntJnlhYPntKA+XG486LK857SZ5YWD57SgPkNocmlzdG1hcyBUcmVlPC/osrzntJnlhYPntKA+In0="
     },
     "1733816128": {
+        "name": "生成 Logo",
+        "advance": true,
+        "example": false,
+        "explore": true,
+        "type": "Midjourney",
+        "prompt": "eyJuYW1lIjoi55Sf5oiQIExvZ2/vu78iLCJkZXNjcmlwdGlvbiI6IumAmeaYr+S4gOWAi+ijveS9nCBMb2dvIOeahOaPkOekuuipnuaooeadv+OAgiIsInRlbXBsYXRlIjoiQSA86aKo5qC8Pi1zdHlsZSBsb2dvIG9mIDzlj4PogIPniak+IGluIDzpoY/oibIxPiBhbmQgPOmhj+iJsjI+IGNvbG9ycyBvbiBhIHdoaXRlIGJhY2tncm91bmQsIFxudXNpbmcgc2ltcGxlIHNoYXBlcywgdmVjdG9yIGFydCwgXG53aXRoIG5vIHNoYWRvd3Mgb3IgZ3JhZGllbnQsIGFuZCBzaW1wbGUgZGV0YWlscy4gXG5UaGUgZGVzaWduIGZlYXR1cmVzIGFtcGxlIHdoaXRlIHNwYWNlIGFyb3VuZCB0aGUgZWRnZXMsIFxud2l0aCBhIHByb2Zlc3Npb25hbC1xdWFsaXR5LCBjbGVhbiwgYW5kIHNoYXJwIGZvY3VzLCBhbmQgaGlnaCBjb250cmFzdC5cbi0tYXIgMToxIC0tc3R5bGUgcmF3IC0tdiA2LjEiLCJ2b2NhYiI6IjzpoqjmoLw+bWluaW1hbGlzdGljPC/poqjmoLw+XG486aKo5qC8Pm1vZGVybjwv6aKo5qC8PlxuPOmiqOagvD5hYnN0cmFjdDwv6aKo5qC8PlxuXG485Y+D6ICD54mpPmJhbmFuYTwv5Y+D6ICD54mpPlxuPOWPg+iAg+eJqT50cmVlPC/lj4PogIPniak+XG485Y+D6ICD54mpPmZveDwv5Y+D6ICD54mpPlxuXG486aGP6ImyMT5wYXN0ZWwgcGluazwv6aGP6ImyMT5cbjzpoY/oibIxPmZvcmVzdCBncmVlbjwv6aGP6ImyMT5cbjzpoY/oibIxPmJhYnkgYmx1ZTwv6aGP6ImyMT5cblxuPOmhj+iJsjI+c29mdCBicm93bjwv6aGP6ImyMj5cbjzpoY/oibIyPnNvZnQgZ3JheTwv6aGP6ImyMj5cbjzpoY/oibIyPnNvZnQgeWVsbG93PC/poY/oibIyPiJ9"
+    },
+    "1733816129": {
         "name": "生成表情貼圖‍",
         "advance": true,
         "example": false,
@@ -63,7 +71,7 @@
         "type": "Midjourney",
         "prompt": "eyJuYW1lIjoi55Sf5oiQ6KGo5oOF6LK85ZyW4oCN4oCNIiwiZGVzY3JpcHRpb24iOiLpgJnmmK/kuIDlgIvnlJ/miJDooajmg4XosrzlnJbnmoTmj5DnpLroqZ7mqKHmnb/jgIIiLCJ0ZW1wbGF0ZSI6IkEgZ3JpZCBvZiBFeHByZXNzaW9uIFJlZmVyZW5jZSBTaGVldCwgXG5zaG93aW5nIHRoZSBzYW1lIDzop5LoibI+J3MgZmFjZSBpbiBtYW55IGRpZmZlcmVudCBlbW90aW9ucywgXG53aXRoIGEgY2xlYW4gd2hpdGUgYmFja2dyb3VuZCBhbmQgaW4gPOe5queVq+miqOagvD4iLCJ2b2NhYiI6Ijzop5LoibI+bWVuPC/op5LoibI+XG486KeS6ImyPndvbWVuPC/op5LoibI+XG486KeS6ImyPmNoaWNrZW48L+inkuiJsj5cbjzop5LoibI+cm9ib3Q8L+inkuiJsj5cbjzop5LoibI+ZG9nPC/op5LoibI+XG486KeS6ImyPmNhdDwv6KeS6ImyPlxuXG4857mq55Wr6aKo5qC8PkFuaW1lIFN0eWxlPC/nuarnlavpoqjmoLw+XG4857mq55Wr6aKo5qC8Pk1hbmdhIFN0eWxlPC/nuarnlavpoqjmoLw+XG4857mq55Wr6aKo5qC8PkNoaWJpIFN0eWxlPC/nuarnlavpoqjmoLw+XG4857mq55Wr6aKo5qC8PkNhcnRvb24gU3R5bGU8L+e5queVq+miqOagvD5cbjznuarnlavpoqjmoLw+V2F0ZXJjb2xvciBTdHlsZTwv57mq55Wr6aKo5qC8PiJ9"
     },
-    "1733816129": {
+    "1733816130": {
         "name": "生成節日素材：聖誕賀卡‍",
         "advance": true,
         "example": false,
@@ -71,7 +79,7 @@
         "type": "Midjourney",
         "prompt": "eyJuYW1lIjoi6KO95L2c6IGW6KqV5Y2h54mH4oCN4oCNIiwiZGVzY3JpcHRpb24iOiLpgJnmmK/kuIDlgIvoo73kvZzogZboqpXljaHniYfnmoTmj5DnpLroqZ7mqKHmnb/jgIIiLCJ0ZW1wbGF0ZSI6IkEgPOaPkueVq+miqOagvD4gaWxsdXN0cmF0aW9ucyBvZiA86IGW6KqV5YWD57SgPiwgXG51c2luZyBzb2Z0IHBhc3RlbCBjb2xvcnMuIFxuLS1hciA0OjUgLS1zdHlsZSByYXciLCJ2b2NhYiI6Ijzmj5LnlavpoqjmoLw+cGxheWZ1bCwgd2hpbXNpY2FsLCBjaGlsZGxpa2UsIG1peGVkIG1lZGlhPC/mj5LnlavpoqjmoLw+XG485o+S55Wr6aKo5qC8PndoaW1zaWNhbCwgY2hpbGRsaWtlLCBqb3lmdWwsIHdhdGVyY29sb3I8L+aPkueVq+miqOagvD5cbjzmj5LnlavpoqjmoLw+c29mdCwgaW1wcmVzc2lvbmlzdGljLCBkcmVhbXksIG9pbCBwYXN0ZWw8L+aPkueVq+miqOagvD5cbjzmj5LnlavpoqjmoLw+d2hpbXNpY2FsLCBjaGlsZGxpa2UsIHBsYXlmdWwsIGdvdWFjaGU8L+aPkueVq+miqOagvD5cblxuPOiBluiqleWFg+e0oD5SdWRvbHBoIHRoZSByZWQgbm9zZWQgcmVpbmRlZXI8L+iBluiqleWFg+e0oD5cbjzogZboqpXlhYPntKA+U2FudGEgQ2xhdXNlPC/ogZboqpXlhYPntKA+XG486IGW6KqV5YWD57SgPkNocmlzdG1hcyBTZWFzb248L+iBluiqleWFg+e0oD5cbjzogZboqpXlhYPntKA+Q2hyaXN0bWFzIERlY29yYXRpb25zPC/ogZboqpXlhYPntKA+XG486IGW6KqV5YWD57SgPkNocmlzdG1hcyBUcmVlPC/ogZboqpXlhYPntKA+XG486IGW6KqV5YWD57SgPkNocmlzdG1hcyBQcmVzZW50czwv6IGW6KqV5YWD57SgPiJ9"
     },
-    "1733816130": {
+    "1733816131": {
         "name": "生成節日素材：無縫紋理圖片",
         "advance": true,
         "example": false,
@@ -80,7 +88,3 @@
         "prompt": "eyJuYW1lIjoi6KO95L2c5ZCE56iu56+A5pel55qE54Sh57ir57SL55CG5ZyW54mH77u/IiwiZGVzY3JpcHRpb24iOiLpgJnmmK/kuIDlgIvoo73kvZznr4Dml6XnhKHnuKvntIvnkIblnJbniYfnmoTmj5DnpLroqZ7mqKHmnb/jgIIiLCJ0ZW1wbGF0ZSI6IkEgc3dlZXQgPOevgOaXpT4gcGF0dGVybixcbmZlYXR1cmluZyBzZWFzb25hbCBzeW1ib2xzLCBpbGx1c3RyYXRpb25zIGluIDzmj5LnlavpoqjmoLw+LCBcbnBlcmZlY3QgZm9yIGNoaWxkcmVuJ3MgYXBwYXJlbCBvciBncmVldGluZyBjYXJkcyAtLXRpbGUgLS1hciAxOjEgLS12IDYuMSIsInZvY2FiIjoiPOevgOaXpT5WYWxlbnRpbmUncyBEYXk8L+evgOaXpT5cbjznr4Dml6U+Q2hyaXN0bWFzPC/nr4Dml6U+XG4856+A5pelPkVhc3Rlcjwv56+A5pelPlxuXG485o+S55Wr6aKo5qC8PnBsYXlmdWwsIHdoaW1zaWNhbCwgY2hpbGRsaWtlLCBtaXhlZCBtZWRpYTwv5o+S55Wr6aKo5qC8PlxuPOaPkueVq+miqOagvD53aGltc2ljYWwsIGNoaWxkbGlrZSwgam95ZnVsLCB3YXRlcmNvbG9yPC/mj5LnlavpoqjmoLw+XG485o+S55Wr6aKo5qC8PnNvZnQsIGltcHJlc3Npb25pc3RpYywgZHJlYW15LCBvaWwgcGFzdGVsPC/mj5LnlavpoqjmoLw+XG485o+S55Wr6aKo5qC8PndoaW1zaWNhbCwgY2hpbGRsaWtlLCBwbGF5ZnVsLCBnb3VhY2hlPC/mj5LnlavpoqjmoLw+In0="
     }
 }
-
-
-
-
