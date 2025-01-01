@@ -179,9 +179,7 @@
                     <button id="save-btn" type="button" class="w-100 btn btn-dark">保存流程</button>
                 </div>
                 <div class="col-3">
-                    <a class="w-100 btn btn-dark" href="./flow.html" role="button" id="clear-btn">
-                        清除流程
-                    </a>
+                    <button id="clear-btn" type="button" class="w-100 btn btn-dark">清除流程</button>
                 </div>
                 <div class="col-3">
                     <button id="reset-btn" type="button" class="w-100 btn btn-dark">清除結果</button>
@@ -468,6 +466,17 @@
         document.getElementById("reset-btn").addEventListener("click", function () {
             document.getElementById("result").innerHTML = "";
         });
+        document.getElementById("clear-btn").addEventListener("click", function () {
+            console.log("reset")
+            let accordionContainer = document.getElementById("accordionContainer")
+            let tmpAccordionItem1 = accordionContainer.querySelectorAll(".accordion-item")[0]
+            let tmpAccordionItem2 = accordionContainer.querySelectorAll(".accordion-item")[1]
+            tmpAccordionItem2.querySelector("textarea").value = "hi"
+            accordionContainer.innerHTML = ""
+            accordionContainer.appendChild(tmpAccordionItem1)
+            accordionContainer.appendChild(tmpAccordionItem2)
+            window.history.replaceState(null, '', './');
+        });
         document.getElementById("close-btn").addEventListener("click", function () {
             // 收合所有的 accordion-Collapse
             const accordionCollapseList = document.querySelectorAll("#result .accordion-button");
@@ -547,7 +556,7 @@
                 let accordionBody = document.createElement("div");
                 accordionBody.className = "accordion-body";
                 let chatCard = document.createElement("div");
-                chatCard.className = "card p-4 chatCard";
+                chatCard.className = "chatCard";
 
                 // 組裝 accordion 結構
                 accordionHeader.appendChild(accordionButton);
