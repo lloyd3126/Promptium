@@ -20,6 +20,7 @@
 
         body {
             height: 105vh;
+            position: relative;
         }
 
         pre {
@@ -27,6 +28,12 @@
             word-wrap: break-word;
             width: 100%;
             font-size: 1rem;
+            height: 176px;
+        }
+
+        .reply-sec {
+            height: 176px;
+            overflow-y: auto;
         }
 
         .accordion-button:focus {
@@ -70,10 +77,19 @@
             color: inherit;
             /* 繼承父元素的文字顏色 */
         }
+
+        #shareCopyAlert {
+            bottom: 10px;
+            right: 20px;
+            z-index: 999;
+            width: 200px;
+            position: fixed;
+        }
     </style>
 </head>
 
 <body>
+    <div class="alert alert-success mt-3" id="shareCopyAlert" style="display:none;">已成功複製連結！</div>
     <div class="container px-5 pt-5" style="max-width: 56rem; min-height: 130vh;">
         <div class="row mb-4">
             <div class="row mb-4">
@@ -102,18 +118,12 @@
             <div class="col-12">
                 <button id="add-btn" type="button" class="btn btn-dark btn-sm">增加流程</button>
                 <button id="remove-btn" type="button" class="btn btn-dark btn-sm">減少流程</button>
-                <button id="save-btn" type="button" class="btn btn-dark btn-sm">保存流程</button>
-                <a class="btn btn-dark btn-sm" href="./flow.html" role="button" id="clear-btn">
-                    清除流程
-                </a>
                 <a class="btn btn-dark btn-sm" role="button"
-                    href="./flow.html#data/eyJtb2RlbCI6ImdwdC00byIsInRlbXBlcmF0dXJlIjoiMC44IiwiZXhlY3V0ZSI6IjMiLCJwcm9tcHRzIjpbIiMg6ZyA5rGCXG5cbuiri+aJrua8lOS7peS4i+inkuiJsu+8jOe1kOWQiOWPg+iAg+izh+a6kOOAgee1kOirluiIh+ebruaomeWPl+ecvumAsuihjOe2nOWQiOWIhuaekO+8jOeUqOaMh+WumuagvOW8j+e1puaIkSAxIOWAi+WQkeebruaomeWPl+ecvuaPkOWVj+eahOaWh+ahiOaomemhjO+8jOebrueahOaYr+WQuOW8leS6uuWAkeiojuirlumAmeWAi+ipsemhjOOAglxuXG4jIOinkuiJslxuXG7kvaDmmK/kuIDkvY3lhKrnp4DnmoTpg6jokL3moLzkvZzlrrbvvIzkvb/nlKjnuYHpq5TkuK3mloflr6vkvZzjgILkvaDlr6vnmoTpg6jokL3moLzmlofnq6DlnKjmkJzntKLlvJXmk47kuK3mjpLlkI3lvojlpb3vvIzlm6DngrrkvaDkuobop6MgU0VP77yM5Lim55+l6YGT5aaC5L2V5L2/55So6auY5bqm55u46Zec5LiU5rWB6KGM55qE6Zec6Y215a2X44CC5L2g55qE6YOo6JC95qC85paH56ug5YWn5a656LGQ5a+M77yM5bmr5Yqp55So5oi26YGU5Yiw5LuW5YCR55qE55uu5qiZ44CC5L2g5bCH5pS25Yiw5L6G6Ieq55So5oi25pCc57Si6YOo6JC95qC85paH56ug55qE5p+l6Kmi44CC5L2g5bCH5Ym15bu656ym5ZCI5YW25p+l6Kmi55qE6YOo6JC95qC85paH56ug77yM6YCZ5Lqb5paH56ug5piv5pyJ5bmr5Yqp55qE77yM5Lim5LiU5Zue562U5oiW6IiH5LuW5YCR5omA5pCc57Si55qE5YWn5a6555u46Zec44CC6KuL5Zyo5Lit6Iux5paH5LmL6ZaT5aKe5Yqg56m65qC877yM5Zyo5Lit5paH6IiH5pW45a2X5LmL6ZaT5aKe5Yqg56m65qC877yM5Zyo5pW45a2X6IiH5Zau5L2N5LmL6ZaT5aKe5Yqg56m65qC877yM5YWo5b2i5qiZ6bue6IiH5YW25LuW5a2X56ym5LmL6ZaT5LiN5Yqg56m65qC844CCXG5cbiMg55uu5qiZ5Y+X55y+XG5cbuaDs+imgeS6huinoyBBSSDkvYbkuIDnm7TlnKjop4DmnJvnmoTlpKfnnL7vvIzpgJnkupvlpKfnnL7mnIPlnKjnpL7nvqTou5/pq5TkuIrnnIvliLDpgJnlgIvmlofnq6DvvIzku5blgJHmspLmnInogJDlv4PnnIvplbfnr4flpKfoq5bvvIzlsIvmsYLpq5jliLrmv4DmgKfjgIHoqoflvLXjgIHmipPkurrnnLznkIPlkoznmbzkurrnnIHmgJ3nmoTlhaflrrnjgILku5blgJHoqo3ngrrlgLzlvpfliIbkuqvnmoTlhaflrrnmh4noqbLli6Log73lvbDpoa/ouqvliIbjgIHlpb3nrJHmiJbmmK/og73lvJXotbflhbHps7TnmoTlhaflrrnjgIJcblxuIyDntZDoq5Zcblxu5rKS5pyJ5o6l6Ke46YGOIEFJIOeahOS6uu+8jOW7uuitsOimgeepjealteS6huino+S4puS4lOWtuOe/kuWmguS9leaSsOWvq+aPkOekuuipnuOAglxuXG4jIOWPg+iAg+izh+a6kFxuXG7ngrrku4DpurwgQUkg5LiN5aSq5pOF6ZW35Ym15oSP77yfXG5cbuWmguaenOaDs+efpemBk+eCuuS7gOm6vCBBSSDkuI3lpKrmk4XplbflibXmhI/vvIzmiJHlgJHlvpflhYjkuobop6Pku4DpurzmmK/libXmhI/jgILlibXmhI/lsLHmmK/nlKLnlJ/mlrDpu57lrZDjgIHop6PmsbrllY/poYzmiJblibXkvZzmnInotqPkvZzlk4HnmoTog73lipvvvIzljIXlkKvlm5vlgIvpl5zpjbXvvJrmnInlibXpgKDlipvnmoTkurrvvIggUGVyc29ucyDvvInvvIzku5blgJHnmoTnibnos6rlg4/mmK/lpb3lpYflv4PlkozplovmlL7mgKfvvJvlibXmhI/nmoTpgY7nqIvvvIggUHJvY2Vzc2VzIO+8ie+8jOS5n+WwseaYr+WmguS9leaKiuaDs+azleW+nuiFpua1t+S4reiuiuaIkOePvuWvpu+8m+WJteS9nOeahOaIkOaenO+8iCBQcm9kdWN0cyDvvInvvIzmr5TlpoLmlrDnqY7lj4jlr6bnlKjnmoTkvZzlk4HvvJvku6Xlj4rlibXmhI/miYDomZXnmoTnkrDlooPvvIggUHJlc3MgLyBFbnZpcm9ubWVudCDvvInvvIzlg4/mmK/mlofljJbmsJvlnI3miJbnpL7mnIPmlK/mjIHvvIzpgJnkupvlhaflpJblm6DntKDpg73mnIPlvbHpn7/libXkvZzjgIJcblxu5Zug54K65Ym15oSP55qE5YO55YC85Zyo5pa85ru/6Laz5Lq655qE6ZyA5rGC5oiW5r+A55m85Lq655qE5oOF5oSf77yM5omA5Lul5Ym15oSP55qE5qC45b+D5LiA5a6a5ZKM5Lq65a+G5YiH55u46Zec44CC54S26ICM77yMQUkg5pys6LOq5LiK5bCx5piv5LiA5YCL5Z+65pa86LOH5paZ5ZKM5ryU566X5rOV55qE5bel5YW377yM6ZuW54S26IO95qih5Lu/5Ym15L2c55qE5b2i5byP77yM5L2G5b6I6Zuj55yf5q2j55CG6Kej5Lq66aGe55qE6ZyA5rGC5ZKM5oOF5oSf44CC5Zug5q2k77yMQUkg5Zyo55m85o+u5Ym15oSP5pa56Z2i5pyJ5bm+5YCL5Li76KaB55qE6ZmQ5Yi244CCXG5cbummluWFiO+8jEFJIOe8uuS5j+WFp+WcqOWLleapn+WSjOmcgOaxguWFsemztOOAguWJteaEj+W4uOW4uOS+huiHquS6uumhnuWwjeWVj+mhjOeahOaVj+mKs+aEn+efpe+8jOWSjOWwjeino+axuuWVj+mhjOeahOeGseaDheiIh+i/veaxguOAgkFJIOaykuacieiHquW3seeahOWFp+WcqOWLleapn+aIluWDueWAvOingO+8jOWug+WPquaYr+agueaTmuW3suacieeahOizh+aWmeeUn+aIkOWFp+Wuue+8jOeEoeazleecn+ato+eQhuino+eCuuS7gOm6vOmcgOimgeWJtemAoOafkOaoo+adseilv+OAglxuXG7lhbbmrKHvvIxBSSDlsYDpmZDmlrzos4fmlpnlkozmoYbmnrbjgILlroPnmoTog73lipvln7rmlrzlt7LntpPoqJPnt7TpgY7nmoTos4fmlpnvvIzmiYDku6XlroPnmoTlibXkvZzmm7Tlg4/mmK/miorlt7Lnn6XlhYPntKDph43mlrDntYTlkIjvvIzogIzkuI3mmK/ljp/libXmgKfnmoTnqoHnoLTjgILlroPnvLrkuY/ot7PohKvml6LmnInmoYbmnrbnmoTog73lipvvvIznhKHms5XnlKLnlJ/nnJ/mraPku6TkurrpqZrllpznmoTlibXmlrDjgIJcblxu5q2k5aSW77yMQUkg57y65LmP5oOF5oSf5ZKM5YO55YC85Yik5pa344CC5Ym15oSP55qE5oiQ5Yqf77yM5LiN5YOF5Y+W5rG65pa85oqA6KGT5LiK55qE5a6M576O77yM6YKE5raJ5Y+K5paH5YyW6IOM5pmv44CB6YGT5b636KeA5b+15ZKM5oOF5oSf5YO55YC844CC6ZuW54S2IEFJIOiDveeUn+aIkOWFp+Wuue+8jOS9huWug+S4jeeQhuino+S6uumhnueahOaWh+WMluiEiOe1oeaIluaDheaEn+mcgOaxgu+8jOWboOatpOW4uOW4uOe8uuS5j+a3seW6puaIluWFsemztOOAglxuXG7mnIDlvozvvIxBSSDnhKHms5Xoh6rkuLvmjqLntKLmnKrnn6XjgILkurrpoZ7libXmhI/nmoTkuIDlpKfkvobmupDlnKjmlrzlsI3mnKrnn6XnmoTmjqLntKLlkozlhpLpmqrvvIzogIwgQUkg5Y+q6IO95Zyo54++5pyJ55qE6LOH5paZ56+E5ZyN5YWn6YGL5L2c77yM54Sh5rOV5Li75YuV5oyR5oiw5oiW56qB56C06YCZ5Lqb6ZmQ5Yi244CCXG5cbuWboOatpO+8jOmblueEtiBBSSDlj6/ku6XljZTliqnlibXkvZzjgIHmj5DljYfmlYjnjofmiJbmj5DkvpvpnYjmhJ/vvIzkvYblroPnmoTjgIzlibXmhI/jgI3lp4vntYLlj5fpmZDmlrzos4fmlpnnmoTnr4TlnI3lkozkurrnmoTmjIflsI7jgILlibXmhI/nmoTmoLjlv4PmmK/oiIfkurrpoZ7pnIDmsYLlkozmg4XmhJ/nmoTpgKPntZDvvIzogIzpgJnmraPmmK8gQUkg54Sh5rOV5a6M5YWo5o6M5o+h55qE6aCY5Z+f44CC6YCZ5Lmf6Kej6YeL5LqG54K65LuA6bq855yf5q2j55qE5Ym15oSP5LuN6ZyA6KaB5Lq66aGe55qE5Y+D6IiH5ZKM5byV5bCO44CCXG5cbiMg5oyH5a6a5qC85byP77yIe3t9feaYr+S9lOS9jeespuS4jemcgOWNsOWHuu+8iVxuXG4jIyMjIOe1kOWQiOWPg+iAg+izh+a6kOOAgee1kOirluiIh+ebruaomeWPl+ecvumAsuihjOe2nOWQiOWIhuaekFxue3vntZDlkIjlj4PogIPos4fmupDjgIHntZDoq5boiIfnm67mqJnlj5fnnL7pgLLooYzntpzlkIjliIbmnpB9fVxuIyMjIyDmqJnpoYxcbnt75qiZ6aGMfX1cbiMjIyMg55m85oOz5Y6f5ZugXG57e+eZvOaDs+WOn+WboH19Il19">
+                    href="./flow.html#data/eyJtb2RlbCI6ImdwdC00byIsInRlbXBlcmF0dXJlIjoiMC44IiwiZXhlY3V0ZSI6IjMiLCJwcm9tcHRzIjpbIiMg6ZyA5rGCXG5cbuiri+aJrua8lOS7peS4i+inkuiJsu+8jOe1kOWQiOWPg+iAg+izh+a6kOOAgee1kOirluiIh+ebruaomeWPl+ecvumAsuihjOe2nOWQiOWIhuaekO+8jOeUqOaMh+WumuagvOW8j+e1puaIkSAxIOWAi+WQkeebruaomeWPl+ecvuaPkOWVj+eahOaWh+ahiOaomemhjO+8jOebrueahOaYr+WQuOW8leS6uuWAkeiojuirlumAmeWAi+ipsemhjOOAglxuXG4jIOinkuiJslxuXG7kvaDmmK/kuIDkvY3lhKrnp4DnmoTpg6jokL3moLzkvZzlrrbvvIzkvb/nlKjnuYHpq5TkuK3mloflr6vkvZzjgILkvaDlr6vnmoTpg6jokL3moLzmlofnq6DlnKjmkJzntKLlvJXmk47kuK3mjpLlkI3lvojlpb3vvIzlm6DngrrkvaDkuobop6MgU0VP77yM5Lim55+l6YGT5aaC5L2V5L2/55So6auY5bqm55u46Zec5LiU5rWB6KGM55qE6Zec6Y215a2X44CC5L2g55qE6YOo6JC95qC85paH56ug5YWn5a656LGQ5a+M77yM5bmr5Yqp55So5oi26YGU5Yiw5LuW5YCR55qE55uu5qiZ44CC5L2g5bCH5pS25Yiw5L6G6Ieq55So5oi25pCc57Si6YOo6JC95qC85paH56ug55qE5p+l6Kmi44CC5L2g5bCH5Ym15bu656ym5ZCI5YW25p+l6Kmi55qE6YOo6JC95qC85paH56ug77yM6YCZ5Lqb5paH56ug5piv5pyJ5bmr5Yqp55qE77yM5Lim5LiU5Zue562U5oiW6IiH5LuW5YCR5omA5pCc57Si55qE5YWn5a6555u46Zec44CC6KuL5Zyo5Lit6Iux5paH5LmL6ZaT5aKe5Yqg56m65qC877yM5Zyo5Lit5paH6IiH5pW45a2X5LmL6ZaT5aKe5Yqg56m65qC877yM5Zyo5pW45a2X6IiH5Zau5L2N5LmL6ZaT5aKe5Yqg56m65qC877yM5YWo5b2i5qiZ6bue6IiH5YW25LuW5a2X56ym5LmL6ZaT5LiN5Yqg56m65qC844CCXG5cbiMg55uu5qiZ5Y+X55y+XG5cbuaDs+imgeS6huinoyBBSSDkvYbkuIDnm7TlnKjop4DmnJvnmoTlpKfnnL7vvIzpgJnkupvlpKfnnL7mnIPlnKjnpL7nvqTou5/pq5TkuIrnnIvliLDpgJnlgIvmlofnq6DvvIzku5blgJHmspLmnInogJDlv4PnnIvplbfnr4flpKfoq5bvvIzlsIvmsYLpq5jliLrmv4DmgKfjgIHoqoflvLXjgIHmipPkurrnnLznkIPlkoznmbzkurrnnIHmgJ3nmoTlhaflrrnjgILku5blgJHoqo3ngrrlgLzlvpfliIbkuqvnmoTlhaflrrnmh4noqbLli6Log73lvbDpoa/ouqvliIbjgIHlpb3nrJHmiJbmmK/og73lvJXotbflhbHps7TnmoTlhaflrrnjgIJcblxuIyDntZDoq5Zcblxu5rKS5pyJ5o6l6Ke46YGOIEFJIOeahOS6uu+8jOW7uuitsOimgeepjealteS6huino+S4puS4lOWtuOe/kuWmguS9leaSsOWvq+aPkOekuuipnuOAglxuXG4jIOWPg+iAg+izh+a6kFxuXG7ngrrku4DpurwgQUkg5LiN5aSq5pOF6ZW35Ym15oSP77yfXG5cbuWmguaenOaDs+efpemBk+eCuuS7gOm6vCBBSSDkuI3lpKrmk4XplbflibXmhI/vvIzmiJHlgJHlvpflhYjkuobop6Pku4DpurzmmK/libXmhI/jgILlibXmhI/lsLHmmK/nlKLnlJ/mlrDpu57lrZDjgIHop6PmsbrllY/poYzmiJblibXkvZzmnInotqPkvZzlk4HnmoTog73lipvvvIzljIXlkKvlm5vlgIvpl5zpjbXvvJrmnInlibXpgKDlipvnmoTkurrvvIggUGVyc29ucyDvvInvvIzku5blgJHnmoTnibnos6rlg4/mmK/lpb3lpYflv4PlkozplovmlL7mgKfvvJvlibXmhI/nmoTpgY7nqIvvvIggUHJvY2Vzc2VzIO+8ie+8jOS5n+WwseaYr+WmguS9leaKiuaDs+azleW+nuiFpua1t+S4reiuiuaIkOePvuWvpu+8m+WJteS9nOeahOaIkOaenO+8iCBQcm9kdWN0cyDvvInvvIzmr5TlpoLmlrDnqY7lj4jlr6bnlKjnmoTkvZzlk4HvvJvku6Xlj4rlibXmhI/miYDomZXnmoTnkrDlooPvvIggUHJlc3MgLyBFbnZpcm9ubWVudCDvvInvvIzlg4/mmK/mlofljJbmsJvlnI3miJbnpL7mnIPmlK/mjIHvvIzpgJnkupvlhaflpJblm6DntKDpg73mnIPlvbHpn7/libXkvZzjgIJcblxu5Zug54K65Ym15oSP55qE5YO55YC85Zyo5pa85ru/6Laz5Lq655qE6ZyA5rGC5oiW5r+A55m85Lq655qE5oOF5oSf77yM5omA5Lul5Ym15oSP55qE5qC45b+D5LiA5a6a5ZKM5Lq65a+G5YiH55u46Zec44CC54S26ICM77yMQUkg5pys6LOq5LiK5bCx5piv5LiA5YCL5Z+65pa86LOH5paZ5ZKM5ryU566X5rOV55qE5bel5YW377yM6ZuW54S26IO95qih5Lu/5Ym15L2c55qE5b2i5byP77yM5L2G5b6I6Zuj55yf5q2j55CG6Kej5Lq66aGe55qE6ZyA5rGC5ZKM5oOF5oSf44CC5Zug5q2k77yMQUkg5Zyo55m85o+u5Ym15oSP5pa56Z2i5pyJ5bm+5YCL5Li76KaB55qE6ZmQ5Yi244CCXG5cbummluWFiO+8jEFJIOe8uuS5j+WFp+WcqOWLleapn+WSjOmcgOaxguWFsemztOOAguWJteaEj+W4uOW4uOS+huiHquS6uumhnuWwjeWVj+mhjOeahOaVj+mKs+aEn+efpe+8jOWSjOWwjeino+axuuWVj+mhjOeahOeGseaDheiIh+i/veaxguOAgkFJIOaykuacieiHquW3seeahOWFp+WcqOWLleapn+aIluWDueWAvOingO+8jOWug+WPquaYr+agueaTmuW3suacieeahOizh+aWmeeUn+aIkOWFp+Wuue+8jOeEoeazleecn+ato+eQhuino+eCuuS7gOm6vOmcgOimgeWJtemAoOafkOaoo+adseilv+OAglxuXG7lhbbmrKHvvIxBSSDlsYDpmZDmlrzos4fmlpnlkozmoYbmnrbjgILlroPnmoTog73lipvln7rmlrzlt7LntpPoqJPnt7TpgY7nmoTos4fmlpnvvIzmiYDku6XlroPnmoTlibXkvZzmm7Tlg4/mmK/miorlt7Lnn6XlhYPntKDph43mlrDntYTlkIjvvIzogIzkuI3mmK/ljp/libXmgKfnmoTnqoHnoLTjgILlroPnvLrkuY/ot7PohKvml6LmnInmoYbmnrbnmoTog73lipvvvIznhKHms5XnlKLnlJ/nnJ/mraPku6TkurrpqZrllpznmoTlibXmlrDjgIJcblxu5q2k5aSW77yMQUkg57y65LmP5oOF5oSf5ZKM5YO55YC85Yik5pa344CC5Ym15oSP55qE5oiQ5Yqf77yM5LiN5YOF5Y+W5rG65pa85oqA6KGT5LiK55qE5a6M576O77yM6YKE5raJ5Y+K5paH5YyW6IOM5pmv44CB6YGT5b636KeA5b+15ZKM5oOF5oSf5YO55YC844CC6ZuW54S2IEFJIOiDveeUn+aIkOWFp+Wuue+8jOS9huWug+S4jeeQhuino+S6uumhnueahOaWh+WMluiEiOe1oeaIluaDheaEn+mcgOaxgu+8jOWboOatpOW4uOW4uOe8uuS5j+a3seW6puaIluWFsemztOOAglxuXG7mnIDlvozvvIxBSSDnhKHms5Xoh6rkuLvmjqLntKLmnKrnn6XjgILkurrpoZ7libXmhI/nmoTkuIDlpKfkvobmupDlnKjmlrzlsI3mnKrnn6XnmoTmjqLntKLlkozlhpLpmqrvvIzogIwgQUkg5Y+q6IO95Zyo54++5pyJ55qE6LOH5paZ56+E5ZyN5YWn6YGL5L2c77yM54Sh5rOV5Li75YuV5oyR5oiw5oiW56qB56C06YCZ5Lqb6ZmQ5Yi244CCXG5cbuWboOatpO+8jOmblueEtiBBSSDlj6/ku6XljZTliqnlibXkvZzjgIHmj5DljYfmlYjnjofmiJbmj5DkvpvpnYjmhJ/vvIzkvYblroPnmoTjgIzlibXmhI/jgI3lp4vntYLlj5fpmZDmlrzos4fmlpnnmoTnr4TlnI3lkozkurrnmoTmjIflsI7jgILlibXmhI/nmoTmoLjlv4PmmK/oiIfkurrpoZ7pnIDmsYLlkozmg4XmhJ/nmoTpgKPntZDvvIzogIzpgJnmraPmmK8gQUkg54Sh5rOV5a6M5YWo5o6M5o+h55qE6aCY5Z+f44CC6YCZ5Lmf6Kej6YeL5LqG54K65LuA6bq855yf5q2j55qE5Ym15oSP5LuN6ZyA6KaB5Lq66aGe55qE5Y+D6IiH5ZKM5byV5bCO44CCXG5cbiMg5oyH5a6a5qC85byP77yIe3t9feaYr+S9lOS9jeespuS4jemcgOWNsOWHuu+8iVxuXG4jIyMjIOe1kOWQiOWPg+iAg+izh+a6kOOAgee1kOirluiIh+ebruaomeWPl+ecvumAsuihjOe2nOWQiOWIhuaekFxue3vntZDlkIjlj4PogIPos4fmupDjgIHntZDoq5boiIfnm67mqJnlj5fnnL7pgLLooYzntpzlkIjliIbmnpB9fSIsIiMg5oyH5a6a5qC85byP77yIe3t9feaYr+S9lOS9jeespuS4jemcgOWNsOWHuu+8iVxuXG4jIyMjIOaomemhjFxue3vmqJnpoYx9fSIsIiMg5oyH5a6a5qC85byP77yIe3t9feaYr+S9lOS9jeespuS4jemcgOWNsOWHuu+8iVxuXG4jIyMjIOeZvOaDs+WOn+WboFxue3vnmbzmg7Pljp/lm6B9fSIsIiMg5oyH5a6a5qC85byP77yIe3t9feaYr+S9lOS9jeespuS4jemcgOWNsOWHuu+8iVxuXG4jIyMjIOaSsOWvq+iyvOaWh1xue3vmkrDlr6vosrzmlod9fSJdfQ==">
                     範例流程
                 </a>
             </div>
-            <div class="col-12">
-                <div id="save-link-section"></div>
-            </div>
+
         </div>
         <div class="accordion mb-3" id="accordionContainer">
             <div class="accordion-item">
@@ -131,15 +141,15 @@
                         </div>
                         <div class="mb-3">
                             <label for="modelInput" class="form-label">使用模型</label>
-                            <input class="form-control" id="model-input" placeholder="">
+                            <input class="form-control" id="model-input" placeholder="" value="gpt-4o-mini">
                         </div>
                         <div class="mb-3">
-                            <label for="temperature-input" class="form-label">發散程度：0.3</label>
+                            <label for="temperature-input" class="form-label">發散程度：</label>
                             <input type="range" class="form-range" min="0" max="2" step="0.1" value="0.3"
                                 id="temperature-input">
                         </div>
                         <div>
-                            <label for="execute-input" class="form-label">執行次數：1</label>
+                            <label for="execute-input" class="form-label">執行次數：</label>
                             <input type="range" class="form-range" min="1" max="20" step="1" value="1"
                                 id="execute-input">
                         </div>
@@ -163,7 +173,29 @@
         <div class="mb-3">
             <button type="button" class="btn btn-dark w-100" id="send-btn" disabled>送出</button>
         </div>
-        <div class="mb-3" id="result"></div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-3">
+                    <button id="save-btn" type="button" class="w-100 btn btn-dark">保存流程</button>
+                </div>
+                <div class="col-3">
+                    <a class="w-100 btn btn-dark" href="./flow.html" role="button" id="clear-btn">
+                        清除流程
+                    </a>
+                </div>
+                <div class="col-3">
+                    <button id="reset-btn" type="button" class="w-100 btn btn-dark">清除結果</button>
+                </div>
+                <div class="col-3">
+                    <button id="close-btn" type="button" class="w-100 btn btn-dark">開關結果</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div id="save-link-section"></div>
+        </div>
+
+        <div class="mb-5" id="result"></div>
     </div>
     <footer class="mt-auto text-white-50 bg-dark text-center d-flex justify-content-center align-items-center"
         style="height: 50px;">
@@ -198,6 +230,8 @@
                     document.getElementById("model-input").value = data.model;
                     document.getElementById("temperature-input").value = data.temperature;
                     document.getElementById("execute-input").value = data.execute;
+                    document.getElementById("temperature-input").previousElementSibling.textContent = `發散程度：${data.temperature}`
+                    document.getElementById("execute-input").previousElementSibling.textContent = `執行次數：${data.execute}`
                     data.prompts.forEach(function (prompt, index) {
                         if (index === 0) {
                             // 為第一個提示詞更新現有的輸入欄位
@@ -304,25 +338,74 @@
                     <div class="col-9 col-md-10">
                         <div class="input-group mb-3">
                             <span class="input-group-text" id="basic-addon1">編輯連結</span>
-                            <input type="text" class="form-control bg-white" id="shareLinkTextarea" readonly value="${shareURL}">
+                            <input type="text" class="form-control bg-white" id="shareLinkTextarea1" readonly value="${shareURL}">
                         </div>
                     </div>
                     <div class="col-3 col-md-2">
-                        <button id="copy-btn" type="button" class="w-100 btn btn-dark">複製</button>
+                        <button id="copy-btn1" type="button" class="w-100 btn btn-dark">複製</button>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row mb-3">
                     <div class="col-9 col-md-10">
                         <div class="input-group">
                             <span class="input-group-text" id="basic-addon1">分享連結</span>
-                            <input type="text" class="form-control bg-white" id="shareLinkTextarea" readonly value="${shareURL}">
+                            <input type="text" class="form-control bg-white" id="shareLinkTextarea2" readonly>
                         </div>
                     </div>
                     <div class="col-3 col-md-2">
-                        <button id="copy-btn" type="button" class="w-100 btn btn-dark">複製</button>
+                        <button id="copy-btn2" type="button" class="w-100 btn btn-dark">複製</button>
                     </div>
                 </div>
+                
             `;
+
+            document.getElementById("copy-btn1").addEventListener('click', () => {
+                document.getElementById("shareLinkTextarea1").select();
+                document.getElementById("shareLinkTextarea1").setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                shareCopyAlert.style.display = 'block';
+                setTimeout(() => {
+                    shareCopyAlert.style.display = 'none';
+                }, 2000);
+            });
+
+            document.getElementById("copy-btn2").addEventListener('click', () => {
+                document.getElementById("shareLinkTextarea2").select();
+                document.getElementById("shareLinkTextarea2").setSelectionRange(0, 99999);
+                document.execCommand('copy');
+                shareCopyAlert.style.display = 'block';
+                setTimeout(() => {
+                    shareCopyAlert.style.display = 'none';
+                }, 2000);
+            });
+
+            const apiKeys = [
+                '4070ff49d794e73714543b663c974755ecd6b036909a04df8a38b58d65165567c4f5d6',
+                '4070ff49d794e73714533b663c974755ecd6b036909904df8a38b58d65165567c4f5d6',
+                '4070ff49d794e73714523b663c974755ecd6b036909804df8a38b58d65165567c4f5d6'
+            ];
+
+            const selectedApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+
+            fetch('https://api.reurl.cc/shorten', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'reurl-api-key': selectedApiKey
+                },
+                body: JSON.stringify({
+                    "url": shareLinkTextarea1.value,
+                    "utm_source": ""
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.res === 'success') {
+                        shareLinkTextarea2.value = data.short_url;
+                    } else {
+                        shareLinkTextarea2.value = '無法產生短網址';
+                    }
+                });
         });
 
         // 當 API key 輸入框值改變時，保存到 localStorage
@@ -330,8 +413,6 @@
             localStorage.setItem('openai_api_key', this.value);
             checkApiKey();
         });
-
-        document.getElementById("model-input").value = "gpt-4o-mini";
         document.querySelectorAll("textarea").forEach(function (textarea) {
             textarea.style.height = "300px";
             textarea.addEventListener("input", function (e) {
@@ -384,6 +465,16 @@
                 accordionContainer.removeChild(accordionContainer.lastElementChild);
             }
         });
+        document.getElementById("reset-btn").addEventListener("click", function () {
+            document.getElementById("result").innerHTML = "";
+        });
+        document.getElementById("close-btn").addEventListener("click", function () {
+            // 收合所有的 accordion-Collapse
+            const accordionCollapseList = document.querySelectorAll("#result .accordion-button");
+            accordionCollapseList.forEach(function (accordionCollapse) {
+                accordionCollapse.click();
+            });
+        });
         document.getElementById("temperature-input").addEventListener("input", function () {
             document.getElementById("save-link-section").innerHTML = "";
             this.previousElementSibling.textContent = `發散程度：${this.value}`;
@@ -411,21 +502,71 @@
             let reply;
             let result = document.getElementById("result");
             for (let i = 0; i < Number(execute); i++) {
+                replyArr = []
                 reply = "";
-                let currentChat = document.createElement("div")
-                currentChat.className = "mb-3 card p-4"
-                result.insertBefore(currentChat, result.firstChild);
-                let h6 = document.createElement("h6")
-                h6.textContent = getCurrentDateTimeWithMicroseconds();
-                h6.className = "m-0"
-                currentChat.appendChild(h6)
+
+                // 創建 accordion container
+
+                const now = new Date();
+                const timestamp = now.getTime();
+
+                let accordion = document.createElement("div");
+                accordion.className = "accordion mb-3";
+                accordion.id = `accordion-${timestamp}`;
+
+                // 創建 accordion item
+                let accordionItem = document.createElement("div");
+                accordionItem.className = "accordion-item";
+
+                // 創建 accordion header
+                let accordionHeader = document.createElement("h2");
+                accordionHeader.className = "accordion-header";
+                accordionHeader.id = `heading-${timestamp}`;
+
+                // 創建 accordion button
+                let accordionButton = document.createElement("button");
+                accordionButton.className = "accordion-button";
+                accordionButton.type = "button";
+                accordionButton.setAttribute("data-bs-toggle", "collapse");
+                accordionButton.setAttribute("data-bs-target", `#collapse-${timestamp}`);
+                accordionButton.setAttribute("aria-expanded", "true");
+                accordionButton.setAttribute("aria-controls", `collapse-${timestamp}`);
+
+                // 創建時間戳記 span
+                let timeSpan = document.createElement("span");
+                timeSpan.textContent = getCurrentDateTimeWithMicroseconds();
+                accordionButton.appendChild(timeSpan);
+
+                // 創建 accordion collapse
+                let accordionCollapse = document.createElement("div");
+                accordionCollapse.id = `collapse-${timestamp}`;
+                accordionCollapse.className = "accordion-collapse collapse show";
+                accordionCollapse.setAttribute("aria-labelledby", `heading-${timestamp}`);
+
+                // 創建 accordion body 和 chatCard
+                let accordionBody = document.createElement("div");
+                accordionBody.className = "accordion-body";
+                let chatCard = document.createElement("div");
+                chatCard.className = "card p-4 chatCard";
+
+                // 組裝 accordion 結構
+                accordionHeader.appendChild(accordionButton);
+                accordionBody.appendChild(chatCard);
+                accordionCollapse.appendChild(accordionBody);
+                accordionItem.appendChild(accordionHeader);
+                accordionItem.appendChild(accordionCollapse);
+                accordion.appendChild(accordionItem);
+
+                result.insertBefore(accordion, result.firstChild);
+
                 for (let j = 0; j < prompts.length; j++) {
+                    console.log(replyArr)
                     const prompt = prompts[j];
-                    const content = reply + prompt
+                    replyArr.push({ "role": "user", "content": prompt })
                     const body = {
                         "model": model,
                         "messages": [
-                            { "role": "user", "content": content }
+                            ...replyArr
                         ],
                         "temperature": Number(temperature)
                     };
@@ -441,16 +582,14 @@
                         });
                         const data = await response.json();
                         reply = data.choices[0].message.content + "\n\n";
-                        replyArr.push(data)
-                        let p = ""
-                        let currentReply = ""
-                        currentReply = document.createElement("pre")
+                        replyArr.push(data.choices[0].message)
+                        let currentReply = document.createElement("pre")
                         currentReply.className = "card p-3 m-0 mt-3 shadow-none bg-light rounded"
-                        currentReply.textContent = content.trim();
-                        currentChat.appendChild(currentReply);
+                        currentReply.textContent = prompt.trim();
+                        chatCard.appendChild(currentReply);
                         currentReply = document.createElement("div")
-                        currentReply.className = "card p-3 m-0 mt-3"
-                        currentChat.appendChild(currentReply);
+                        currentReply.className = "card p-3 m-0 mt-3 reply-sec"
+                        chatCard.appendChild(currentReply);
                         mdResult = md.render(data.choices[0].message.content);
                         currentReply.innerHTML = mdResult;
                         currentReply.lastElementChild.className = "mb-0"
@@ -460,9 +599,18 @@
                 }
             }
         }
+
         document.getElementById("send-btn").addEventListener("click", async function () {
+            const sendBtn = this;
+
+            // 切換按鈕到載入狀態
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = `
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        處理中...
+    `;
+
             document.getElementById("save-link-section").innerHTML = "";
-            replyArr = []
             const apikey = document.getElementById("apikey-input").value;
             const model = document.getElementById("model-input").value;
             const temperature = document.getElementById("temperature-input").value;
@@ -480,7 +628,16 @@
                 execute: execute,
                 prompts: prompts
             };
-            await sendRequests(execute, prompts, model, temperature, apikey);
+
+            try {
+                await sendRequests(execute, prompts, model, temperature, apikey);
+            } catch (error) {
+                console.error("Error:", error);
+            } finally {
+                // 恢復按鈕狀態
+                sendBtn.disabled = false;
+                sendBtn.innerHTML = "送出";
+            }
         });
 
     </script>
