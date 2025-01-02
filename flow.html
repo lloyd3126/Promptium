@@ -28,12 +28,13 @@
             word-wrap: break-word;
             width: 100%;
             font-size: 1rem;
-            height: 176px;
         }
 
+        .ask-sec,
         .reply-sec {
             height: 176px;
             overflow-y: auto;
+            width: calc(100% - 30px);
         }
 
         .accordion-button:focus {
@@ -514,14 +515,54 @@
             const microseconds = milliseconds * 1000;
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${String(microseconds).padStart(6, '0')}`;
         }
+
         async function sendRequests(execute, prompts, model, temperature, apikey) {
             let reply;
             let result = document.getElementById("result");
+
+            // 首先創建 modal（如果還不存在的話）
+            if (!document.getElementById('expandModal')) {
+                const modal = document.createElement('div');
+                modal.className = 'modal fade';
+                modal.id = 'expandModal';
+                modal.tabIndex = '-1';
+                modal.innerHTML = `
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">完整內容</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <pre class="p-3" id="modalContent" style="white-space: pre-wrap; word-wrap: break-word;"></pre>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
+
+            // 創建一個通用的展開按鈕函數
+            function createExpandButton(content) {
+                let expandButton = document.createElement("button");
+                expandButton.className = "btn btn-sm btn-dark";
+                expandButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-angle-expand" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707zm4.344-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707z"/></svg>';
+
+                expandButton.onclick = (e) => {
+                    e.stopPropagation();
+                    const modal = new bootstrap.Modal(document.getElementById('expandModal'));
+                    let mdContent = md.render(content)
+                    document.getElementById('modalContent').innerHTML = mdContent;
+
+                    modal.show();
+                };
+
+                return expandButton;
+            }
+
             for (let i = 0; i < Number(execute); i++) {
                 replyArr = []
                 reply = "";
-
-                // 創建 accordion container
 
                 const now = new Date();
                 const timestamp = now.getTime();
@@ -599,22 +640,72 @@
                         const data = await response.json();
                         reply = data.choices[0].message.content + "\n\n";
                         replyArr.push(data.choices[0].message)
-                        let currentReply = document.createElement("pre")
-                        currentReply.className = "card p-3 m-0 mt-3 shadow-none bg-light rounded"
-                        currentReply.textContent = prompt.trim();
-                        chatCard.appendChild(currentReply);
-                        currentReply = document.createElement("div")
-                        currentReply.className = "card p-3 m-0 mt-3 reply-sec"
-                        chatCard.appendChild(currentReply);
-                        mdResult = md.render(data.choices[0].message.content);
-                        currentReply.innerHTML = mdResult;
-                        currentReply.lastElementChild.className = "mb-0"
+
+                        let cardContainer = document.createElement("div");
+                        cardContainer.className = "d-flex w-100 mt-3";
+
+                        // 創建提示詞容器
+                        let promptContainer = document.createElement("div");
+                        promptContainer.className = "card p-3 m-0 shadow-none bg-light rounded position-relative ask-sec me-2";
+
+                        // 創建 content-wrapper
+                        let promptWrapper = document.createElement("div");
+                        promptWrapper.className = "content-wrapper";
+
+                        // 創建提示詞文本元素
+                        let promptText = document.createElement("pre");
+                        promptText.textContent = prompt.trim();
+
+                        // 添加展開按鈕到提示詞區域
+                        let promptExpandButton = createExpandButton(prompt.trim());
+
+                        // 組裝提示詞容器
+                        promptWrapper.appendChild(promptText);
+                        promptContainer.appendChild(promptWrapper);
+                        cardContainer.appendChild(promptContainer);
+                        cardContainer.appendChild(promptExpandButton);
+                        chatCard.appendChild(cardContainer);
+
+                        let replyCardContainer = document.createElement("div");
+                        replyCardContainer.className = "d-flex w-100 mt-3";
+
+                        // 創建回覆容器
+                        let replyContainer = document.createElement("div");
+                        replyContainer.className = "card p-3 m-0 reply-sec position-relative me-2";
+
+                        // 添加展開按鈕到回覆區域
+                        let replyExpandButton = createExpandButton(data.choices[0].message.content);
+
+                        // 創建內容區域
+                        let contentDiv = document.createElement("div");
+                        contentDiv.className = "content-wrapper";
+                        let replyText = document.createElement("pre");
+                        replyText.textContent = data.choices[0].message.content.trim();
+                        contentDiv.appendChild(replyText);
+                        if (contentDiv.lastElementChild) {
+                            contentDiv.lastElementChild.className = "mb-0";
+                        }
+
+                        // 組裝回覆容器
+                        replyContainer.appendChild(contentDiv);
+                        replyCardContainer.appendChild(replyContainer);
+                        replyCardContainer.appendChild(replyExpandButton);
+                        chatCard.appendChild(replyCardContainer);
+
                     } catch (error) {
                         console.error("Error:", error);
+                        // 創建錯誤提示
+                        let errorDiv = document.createElement("div");
+                        errorDiv.className = "alert alert-danger mt-3";
+                        errorDiv.textContent = "發生錯誤：" + error.message;
+                        chatCard.appendChild(errorDiv);
                     }
                 }
             }
         }
+
+
+
 
         document.getElementById("send-btn").addEventListener("click", async function () {
             const sendBtn = this;
@@ -673,18 +764,8 @@
 
                 // sleep 500ms
                 await new Promise(resolve => setTimeout(resolve, 500));
-
                 console.log(document.querySelector('#result .accordion-button'))
                 document.querySelector('#result .accordion-button').click();
-
-                // 然後打開第一個accordion
-                // const firstAccordion = document.querySelector('#result .accordion:first-child .accordion-collapse');
-                // if (firstAccordion) {
-                //     const firstButton = document.querySelector(`[data-bs-target="#${firstAccordion.id}"]`);
-                //     if (firstButton && firstButton.classList.contains('collapsed')) {
-                //         firstButton.click();
-                //     }
-                // }
             }
         });
 
