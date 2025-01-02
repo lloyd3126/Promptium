@@ -365,8 +365,6 @@
             return decodeURIComponent(escape(atob(str)));
         }
 
-
-
         document.getElementById("save-btn").addEventListener("click", function () {
             const data = {
                 model: document.getElementById("model-input").value,
@@ -374,7 +372,7 @@
                 execute: document.getElementById("execute-input").value,
                 prompts: []
             };
-            document.querySelectorAll("textarea").forEach(function (textarea) {
+            document.querySelectorAll("#accordionContainer textarea").forEach(function (textarea) {
                 data.prompts.push(textarea.value);
             });
             const jsonStr = JSON.stringify(data);
@@ -463,7 +461,7 @@
             localStorage.setItem('openai_api_key', this.value);
             checkApiKey();
         });
-        document.querySelectorAll("textarea").forEach(function (textarea) {
+        document.querySelectorAll("#accordionContainer textarea").forEach(function (textarea) {
             textarea.style.height = "300px";
             textarea.addEventListener("input", function (e) {
                 document.getElementById("save-link-section").innerHTML = "";
