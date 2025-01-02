@@ -16,6 +16,8 @@
     <style>
         * {
             font-family: "Noto Sans Mono", "Noto Sans TC", sans-serif;
+            scrollbar-color: #ececec transparent;
+            box-sizing: border-box;
         }
 
         body {
@@ -54,20 +56,18 @@
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
         }
 
-        h1 {
+        #lodgSec h1 {
             font-family: "Racing Sans One", sans-serif;
             font-weight: 400;
             font-style: normal;
             font-size: 64px;
             user-select: none;
-            /* 標準屬性 */
             -webkit-user-select: none;
-            /* Safari */
             -moz-user-select: none;
-            /* Firefox */
             -ms-user-select: none;
-            /* Internet Explorer/Edge */
         }
+
+
 
         a:hover h1,
         .list-group {
@@ -86,6 +86,53 @@
             width: 200px;
             position: fixed;
         }
+
+        #modalContent h1 {
+            font-size: 2rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        #modalContent h2 {
+            font-size: 1.75rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        #modalContent h3 {
+            font-size: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        #modalContent h4 {
+            font-size: 1.25rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        #modalContent h5 {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        #modalContent h6 {
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        #modalContent p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 
@@ -93,7 +140,7 @@
     <div class="alert alert-success mt-3" id="shareCopyAlert" style="display:none;">已成功複製連結！</div>
     <div class="container px-5 pt-5" style="max-width: 56rem; min-height: 130vh;">
         <div class="row mb-4">
-            <div class="row mb-4">
+            <div class="row mb-4" id="lodgSec">
                 <a href="/" class="text-decoration-none link-dark">
                     <h1 class="text-center no-select">Promptium</h1>
                 </a>
@@ -318,6 +365,8 @@
             return decodeURIComponent(escape(atob(str)));
         }
 
+
+
         document.getElementById("save-btn").addEventListener("click", function () {
             const data = {
                 model: document.getElementById("model-input").value,
@@ -377,6 +426,8 @@
                     shareCopyAlert.style.display = 'none';
                 }, 2000);
             });
+
+
 
             const apiKeys = [
                 '4070ff49d794e73714543b663c974755ecd6b036909a04df8a38b58d65165567c4f5d6',
@@ -534,13 +585,50 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <pre class="p-3" id="modalContent" style="white-space: pre-wrap; word-wrap: break-word;"></pre>
+                                <div class="p-3 d-flex flex-column" id="modalContent"></div>
+                                <textarea id="modalContentTextarea" class="d-none"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="copy-btn3" type="button" class="btn btn-dark">複製為 Markdown</button>
+                                <button id="copy-btn4" type="button" class="btn btn-dark">複製</button>
                             </div>
                         </div>
                     </div>
                 `;
                 document.body.appendChild(modal);
             }
+
+            document.getElementById("copy-btn3").addEventListener('click', () => {
+                let markdownContent = document.getElementById('modalContentTextarea').value
+                navigator.clipboard.writeText(markdownContent).then(() => {
+                    const shareCopyAlert = document.getElementById('shareCopyAlert');
+                    shareCopyAlert.style.display = 'block';
+                    setTimeout(() => {
+                        shareCopyAlert.style.display = 'none';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('無法複製文字: ', err);
+                });
+            });
+
+            document.getElementById("copy-btn4").addEventListener('click', () => {
+                const e = document.getElementById("modalContent");
+                const r = document.createRange();
+                r.selectNodeContents(e);
+                const s = window.getSelection();
+                s.removeAllRanges();
+                s.addRange(r);
+                document.execCommand("copy");
+                if (window.getSelection) {
+                    window.getSelection().removeAllRanges(); // 現代瀏覽器
+                } else if (document.selection) {
+                    document.selection.empty(); // 舊版 IE
+                }
+                shareCopyAlert.style.display = 'block';
+                setTimeout(() => {
+                    shareCopyAlert.style.display = 'none';
+                }, 2000);
+            });
 
             // 創建一個通用的展開按鈕函數
             function createExpandButton(content) {
@@ -553,6 +641,7 @@
                     const modal = new bootstrap.Modal(document.getElementById('expandModal'));
                     let mdContent = md.render(content)
                     document.getElementById('modalContent').innerHTML = mdContent;
+                    document.getElementById('modalContentTextarea').value = content;
 
                     modal.show();
                 };
