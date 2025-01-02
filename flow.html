@@ -817,7 +817,7 @@
             const temperature = document.getElementById("temperature-input").value;
             const execute = document.getElementById("execute-input").value;
             const prompts = [];
-            document.querySelectorAll(".accordionContainer textarea").forEach(function (textarea) {
+            document.querySelectorAll("#accordionContainer textarea").forEach(function (textarea) {
                 textarea.value = textarea.value.trim()
                 if (textarea.value == "") return
                 prompts.push(textarea.value);
