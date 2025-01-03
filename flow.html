@@ -202,12 +202,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="provideSelect" class="form-label">選擇服務</label>
-                            <select class="form-select" id="provide-select">
-                                <option value="openai:gpt-4o">OpenAI: gpt-4o</option>
-                                <option value="anthropic:claude-3-5-sonnet-latest">Anthropic: claude-3-5-sonnet-latest
-                                </option>
-                                <option value="deepseek:deepseek-chat">DeepSeek: deepseek-chat</option>
-                            </select>
+                            <select class="form-select" id="provide-select"></select>
                         </div>
                         <div class="mb-3">
                             <label for="temperature-input" class="form-label">發散程度：</label>
@@ -279,11 +274,96 @@
         let mdResult = "";
         let replyArr = []
 
-        function checkApiKey() {
-            const apiKeyInput = document.getElementById("openai-apikey-input");
-            const sendBtn = document.getElementById("send-btn");
-            sendBtn.disabled = !apiKeyInput.value.trim();
+        // 定義服務提供商選項
+        const providerOptions = {
+            openai: [
+                { value: 'openai:gpt-4o', text: 'OpenAI: gpt-4o' },
+                { value: 'openai:gpt-4o-mini', text: 'OpenAI: gpt-4o-mini' }
+            ],
+            anthropic: [
+                { value: 'anthropic:claude-3-5-sonnet-latest', text: 'Anthropic: claude-3.5-sonnet-latest' },
+                { value: 'anthropic:claude-3-5-haiku-latest', text: 'Anthropic: claude-3.5-haiku-latest' }
+            ],
+            deepseek: [
+                { value: 'deepseek:deepseek-chat', text: 'DeepSeek: deepseek-chat' }
+            ]
+        };
+
+        // 更新提供商選項的函數
+        function updateProviderOptions() {
+            const select = document.getElementById('provide-select');
+            select.innerHTML = ''; // 清空現有選項
+
+            const openaiKey = document.getElementById('openai-apikey-input').value.trim();
+            const anthropicKey = document.getElementById('anthropic-apikey-input').value.trim();
+            const deepseekKey = document.getElementById('deepseek-apikey-input').value.trim();
+
+            // 根據 API key 添加對應選項
+            if (openaiKey) {
+                providerOptions.openai.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.value;
+                    opt.textContent = option.text;
+                    select.appendChild(opt);
+                });
+            }
+
+            if (anthropicKey) {
+                providerOptions.anthropic.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.value;
+                    opt.textContent = option.text;
+                    select.appendChild(opt);
+                });
+            }
+
+            if (deepseekKey) {
+                providerOptions.deepseek.forEach(option => {
+                    const opt = document.createElement('option');
+                    opt.value = option.value;
+                    opt.textContent = option.text;
+                    select.appendChild(opt);
+                });
+            }
+
+            // 如果沒有任何選項,添加一個提示選項
+            if (select.options.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = '請先填寫 API KEY';
+                opt.disabled = true;
+                select.appendChild(opt);
+            }
         }
+
+        // 修改後的 checkApiKey 函數
+        function checkApiKey() {
+            const sendBtn = document.getElementById("send-btn");
+            const openaiKey = document.getElementById("openai-apikey-input").value.trim();
+            const anthropicKey = document.getElementById("anthropic-apikey-input").value.trim();
+            const deepseekKey = document.getElementById("deepseek-apikey-input").value.trim();
+
+            // 只要有任一 API key 被填寫即可啟用發送按鈕
+            const hasValidKey = openaiKey !== "" || anthropicKey !== "" || deepseekKey !== "";
+
+            // 啟用或禁用發送按鈕
+            sendBtn.disabled = !hasValidKey;
+        }
+
+        // 為所有 API key 輸入框添加事件監聽
+        document.getElementById("openai-apikey-input").addEventListener('input', () => {
+            updateProviderOptions();
+            checkApiKey();
+        });
+        document.getElementById("anthropic-apikey-input").addEventListener('input', () => {
+            updateProviderOptions();
+            checkApiKey();
+        });
+        document.getElementById("deepseek-apikey-input").addEventListener('input', () => {
+            updateProviderOptions();
+            checkApiKey();
+        });
+
 
         function decodeFromHash() {
             if (location.hash.startsWith('#data/')) {
@@ -359,8 +439,9 @@
             decodeFromHash();
         }
 
-        // 在頁面載入時讀取 localStorage 中的 API key
-        document.addEventListener('DOMContentLoaded', function () {
+        // 在頁面載入時初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 讀取儲存的 API keys
             const savedOpenAIApiKey = localStorage.getItem('openai_api_key');
             if (savedOpenAIApiKey) {
                 document.getElementById("openai-apikey-input").value = savedOpenAIApiKey;
@@ -373,6 +454,9 @@
             if (savedDeepSeekApiKey) {
                 document.getElementById("deepseek-apikey-input").value = savedDeepSeekApiKey;
             }
+
+            // 初始化選項和檢查 API key
+            updateProviderOptions();
             checkApiKey();
             handleHashChange();
             window.addEventListener('hashchange', handleHashChange);
@@ -554,7 +638,7 @@
             document.getElementById("result").innerHTML = "";
         });
         document.getElementById("clear-btn").addEventListener("click", function () {
-            console.log("reset")
+            // console.log("reset")
             let accordionContainer = document.getElementById("accordionContainer")
             let tmpAccordionItem1 = accordionContainer.querySelectorAll(".accordion-item")[0]
             let tmpAccordionItem2 = accordionContainer.querySelectorAll(".accordion-item")[1]
@@ -737,7 +821,7 @@
                 result.insertBefore(accordion, result.firstChild);
 
                 for (let j = 0; j < prompts.length; j++) {
-                    console.log(replyArr)
+                    // console.log(replyArr)
                     const prompt = prompts[j];
                     replyArr.push({ "role": "user", "content": prompt })
                     const body = {
@@ -777,6 +861,7 @@
 
                     try {
                         let url, headers, response, data;
+                        // console.log(provide)
                         if (provide.includes("openai")) {
                             url = "https://api.openai.com/v1/chat/completions"
                             headers = {
@@ -907,18 +992,18 @@
                 sendBtn.innerHTML = "送出";
 
                 // 先關閉所有展開的accordion
-                const expandedAccordions = document.querySelectorAll('#result .accordion-collapse.show');
-                expandedAccordions.forEach(accordion => {
-                    const button = document.querySelector(`[data-bs-target="#${accordion.id}"]`);
-                    if (button && !button.classList.contains('collapsed')) {
-                        button.click();
-                    }
-                });
+                // const expandedAccordions = document.querySelectorAll('#result .accordion-collapse.show');
+                // expandedAccordions.forEach(accordion => {
+                //     const button = document.querySelector(`[data-bs-target="#${accordion.id}"]`);
+                //     if (button && !button.classList.contains('collapsed')) {
+                //         button.click();
+                //     }
+                // });
 
                 // sleep 500ms
-                await new Promise(resolve => setTimeout(resolve, 500));
-                console.log(document.querySelector('#result .accordion-button'))
-                document.querySelector('#result .accordion-button').click();
+                // await new Promise(resolve => setTimeout(resolve, 500));
+                // console.log(document.querySelector('#result .accordion-button'))
+                // document.querySelector('#result .accordion-button').click();
             }
         });
 
