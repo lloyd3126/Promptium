@@ -188,6 +188,10 @@
                             <input class="form-control" id="openai-apikey-input" placeholder="">
                         </div>
                         <div class="mb-3">
+                            <label for="anthropicApikeyInput" class="form-label">Anthropic 的 API 金鑰</label>
+                            <input class="form-control" id="anthropic-apikey-input" placeholder="">
+                        </div>
+                        <div class="mb-3">
                             <label for="deepseekApikeyInput" class="form-label">DeepSeek 的 API 金鑰</label>
                             <input class="form-control" id="deepseek-apikey-input" placeholder="">
                         </div>
@@ -195,6 +199,8 @@
                             <label for="provideSelect" class="form-label">選擇服務</label>
                             <select class="form-select" id="provide-select">
                                 <option value="openai:gpt-4o">OpenAI: gpt-4o</option>
+                                <option value="anthropic:claude-3-5-sonnet-latest">Anthropic: claude-3-5-sonnet-latest
+                                </option>
                                 <option value="deepseek:deepseek-chat">DeepSeek: deepseek-chat</option>
                             </select>
                         </div>
@@ -352,6 +358,10 @@
             if (savedOpenAIApiKey) {
                 document.getElementById("openai-apikey-input").value = savedOpenAIApiKey;
             }
+            const savedAnthropicApiKey = localStorage.getItem('anthropic_api_key');
+            if (savedAnthropicApiKey) {
+                document.getElementById("anthropic-apikey-input").value = savedAnthropicApiKey;
+            }
             const savedDeepSeekApiKey = localStorage.getItem('deepseek_api_key');
             if (savedDeepSeekApiKey) {
                 document.getElementById("deepseek-apikey-input").value = savedDeepSeekApiKey;
@@ -468,6 +478,10 @@
         // 當 API key 輸入框值改變時，保存到 localStorage
         document.getElementById("openai-apikey-input").addEventListener('change', function () {
             localStorage.setItem('openai_api_key', this.value);
+            checkApiKey();
+        });
+        document.getElementById("anthropic-apikey-input").addEventListener('change', function () {
+            localStorage.setItem('anthropic_api_key', this.value);
             checkApiKey();
         });
         document.getElementById("deepseek-apikey-input").addEventListener('change', function () {
@@ -722,58 +736,85 @@
                         "messages": [
                             ...replyArr
                         ],
-                        "temperature": Number(temperature)
+                        "temperature": Number(temperature),
+                        "max_tokens": 8192
                     };
+
                     const bodystr = JSON.stringify(body);
+                    let cardContainer = document.createElement("div");
+                    cardContainer.className = "d-flex w-100 mt-3";
+
+                    // 創建提示詞容器
+                    let promptContainer = document.createElement("div");
+                    promptContainer.className = "card p-3 m-0 shadow-none bg-light rounded position-relative ask-sec me-2";
+
+                    // 創建 content-wrapper
+                    let promptWrapper = document.createElement("div");
+                    promptWrapper.className = "content-wrapper";
+
+                    // 創建提示詞文本元素
+                    let promptText = document.createElement("pre");
+                    promptText.textContent = prompt.trim();
+
+                    // 添加展開按鈕到提示詞區域
+                    let promptExpandButton = createExpandButton(prompt.trim());
+
+                    // 組裝提示詞容器
+                    promptWrapper.appendChild(promptText);
+                    promptContainer.appendChild(promptWrapper);
+                    cardContainer.appendChild(promptContainer);
+                    cardContainer.appendChild(promptExpandButton);
+                    chatCard.appendChild(cardContainer);
+
                     try {
-                        let url, headers;
+                        let url, headers, response, data;
                         if (provide.includes("openai")) {
                             url = "https://api.openai.com/v1/chat/completions"
                             headers = {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${apikey}`
+                                "content-type": "application/json",
+                                "authorization": `Bearer ${apikey}`
                             }
+                            response = await fetch(url, {
+                                method: "POST",
+                                headers: headers,
+                                body: bodystr
+                            });
+                            data = await response.json();
+                            reply = data.choices[0].message.content + "\n\n";
+                            replyArr.push(data.choices[0].message)
                         }
                         if (provide.includes("deepseek")) {
                             url = "https://api.deepseek.com/chat/completions"
                             headers = {
-                                "Content-Type": "application/json",
-                                "Authorization": `Bearer ${apikey}`
+                                "content-type": "application/json",
+                                "authorization": `Bearer ${apikey}`
                             }
+                            response = await fetch(url, {
+                                method: "POST",
+                                headers: headers,
+                                body: bodystr
+                            });
+                            data = await response.json();
+                            reply = data.choices[0].message.content + "\n\n";
+                            replyArr.push(data.choices[0].message)
                         }
-                        const response = await fetch(url, {
-                            method: "POST",
-                            headers: headers,
-                            body: bodystr
-                        });
-                        const data = await response.json();
-
-                        reply = data.choices[0].message.content + "\n\n";
-                        replyArr.push(data.choices[0].message)
-                        let cardContainer = document.createElement("div");
-                        cardContainer.className = "d-flex w-100 mt-3";
-
-                        // 創建提示詞容器
-                        let promptContainer = document.createElement("div");
-                        promptContainer.className = "card p-3 m-0 shadow-none bg-light rounded position-relative ask-sec me-2";
-
-                        // 創建 content-wrapper
-                        let promptWrapper = document.createElement("div");
-                        promptWrapper.className = "content-wrapper";
-
-                        // 創建提示詞文本元素
-                        let promptText = document.createElement("pre");
-                        promptText.textContent = prompt.trim();
-
-                        // 添加展開按鈕到提示詞區域
-                        let promptExpandButton = createExpandButton(prompt.trim());
-
-                        // 組裝提示詞容器
-                        promptWrapper.appendChild(promptText);
-                        promptContainer.appendChild(promptWrapper);
-                        cardContainer.appendChild(promptContainer);
-                        cardContainer.appendChild(promptExpandButton);
-                        chatCard.appendChild(cardContainer);
+                        if (provide.includes("anthropic")) {
+                            url = "https://api.anthropic.com/v1/messages"
+                            headers = {
+                                "content-type": "application/json",
+                                "x-api-key": apikey,
+                                "anthropic-version": "2023-06-01",
+                                "anthropic-dangerous-direct-browser-access": "true",
+                            }
+                            response = await fetch(url, {
+                                method: "POST",
+                                headers: headers,
+                                body: bodystr
+                            });
+                            data = await response.json();
+                            reply = data.content[0].text + "\n\n";
+                            replyArr.push({ "role": "assistant", "content": data.content[0].text })
+                        }
 
                         let replyCardContainer = document.createElement("div");
                         replyCardContainer.className = "d-flex w-100 mt-3";
@@ -783,13 +824,13 @@
                         replyContainer.className = "card p-3 m-0 reply-sec position-relative me-2";
 
                         // 添加展開按鈕到回覆區域
-                        let replyExpandButton = createExpandButton(data.choices[0].message.content);
+                        let replyExpandButton = createExpandButton(reply);
 
                         // 創建內容區域
                         let contentDiv = document.createElement("div");
                         contentDiv.className = "content-wrapper";
                         let replyText = document.createElement("pre");
-                        replyText.textContent = data.choices[0].message.content.trim();
+                        replyText.textContent = reply.trim();
                         contentDiv.appendChild(replyText);
                         if (contentDiv.lastElementChild) {
                             contentDiv.lastElementChild.className = "mb-0";
@@ -836,6 +877,7 @@
             const provide = document.getElementById("provide-select").value;
             let apikey;
             if (provide.includes("openai")) apikey = document.getElementById("openai-apikey-input").value;
+            if (provide.includes("anthropic")) apikey = document.getElementById("anthropic-apikey-input").value;
             if (provide.includes("deepseek")) apikey = document.getElementById("deepseek-apikey-input").value;
             const model = provide.split(":")[1]
             const temperature = document.getElementById("temperature-input").value;
