@@ -13,6 +13,7 @@
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&family=Noto+Sans+TC:wght@100..900&family=Racing+Sans+One&display=swap"
         rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     <style>
         * {
             font-family: "Noto Sans Mono", "Noto Sans TC", sans-serif;
@@ -149,6 +150,10 @@
         input[type='range']:focus::-webkit-slider-thumb {
             box-shadow: none;
         }
+
+        .tag-input {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -174,7 +179,11 @@
                 </a>
                 <a class="btn btn-dark btn-sm" role="button"
                     href="./flow.html#data/eyJkZXNjcmlwdGlvbiI6IumAmeaYr+S4gOWAi+eUqOS+huWwh+aWsOiBnuaUueWvq+aIkOiyvOaWh+eahOaPkOekuuipnua1geeoi++8jOacg+WFiOiriyBBSSDmjIflh7rnpL7nvqTosrzmlofnmoTmp4vmiJDopoHntKDvvIzmjqXokZfkvp3nhafopoHntKDlkozkvb/nlKjogIXmj5DkvpvnmoTlj4PogIPos4fmlpnmkrDlr6vnpL7nvqTosrzmlofvvIznhLblvozoh6rmiJHmqqLoqI7vvIzmnIDntYLnlKLlh7rkv67mlLnlvoznmoTosrzmlofjgIIiLCJuYW1lIjoi5bCH5paw6IGe5pS55a+r5oiQ6LK85paH55qE5o+Q56S66Kme5rWB56iLIiwidGVtcGVyYXR1cmVzIjpbIjAuOCIsIjAuMyIsIjAiLCIwLjMiXSwiZXhlY3V0ZSI6IjEiLCJwcm9tcHRzIjpbIuiri+WVj+ekvue+pOiyvOaWh+eahOani+aIkOimgee0oOacieWTquS6m++8nyIsIuiri+S+neeFp+imgee0oO+8jOWwh+S7peS4i+WPg+iAg+izh+aWmeaSsOWvq+eCuuekvue+pOiyvOaWh+OAglxuXG4tLS1cblxuIyDjgIjlj7DogqHplovnm6TjgInlhYPmnIjooYzmg4Xlh7rluKvkuI3liKnvvJ8yMDI15bm06ZaL57SF55uk6LeM55m+6bue55eb5aSxMuiQrDPlj4rlraPnt5pcblxu6YmF5Lqo57ay6KiY6ICF5by15qy955m8IOWPsOWMl8KgwqAyMDI1LTAxLTAyIDA5OjM3XG5cbiFbY292ZXIgaW1hZ2Ugb2YgbmV3cyBhcnRpY2xlXShodHRwczovL25ld3MuY255ZXMuY29tL19uZXh0L2ltYWdlP3VybD1odHRwcyUzQSUyRiUyRmNpbWcuY255ZXMuY29vbCUyRnByb2QlMkZuZXdzJTJGNTgyMzc5OCUyRmwlMkY1YzNkMmQ5NWExNTQ4ODU0NmJkNWE3NGZkYjYzZjlkMC5qcGcmdz0zODQwJnE9NzUpXG5cbuOAiOWPsOiCoemWi+ebpOOAieWFg+aciOihjOaDheWHuuW4q+S4jeWIqe+8nzIwMjXlubTplovntIXnm6Tot4znmb7pu57nl5vlpLEy6JCsM+WPiuWto+e3muOAgijpiYXkuqjntrLoqJjogIXlvLXmrL3nmbzmlJ0pXG5cbuWPsOWMl+iCoeW4giAoMikg5pel6ZaL5Ye6IDIwMjUg5bm06aaW5pel6ZaL55uk77yM5Zyo6YCj5pel5biC5aC06YeP6IO96JCO57iu5LmL5LiL77yM5biC5aC05Lq65rCj5pyq6KaL5pyJ5pWI5Zue57Gg77yM5Y+w6IKh6ZuG5Lit5biC5aC05Yqg5qyK6IKh5YO55oyH5pW45LulIDIyOTc1LjcxIOm7nuW5s+S9juebpOmWi+WHuiDvvIzmnKropovpoJjpoK3ml4/nvqTvvIzlj7DnqY3pm7sgKFsyMzMwLVRXXShodHRwczovL3d3dy5jbnllcy5jb20vdHdzdG9jay8yMzMwKSkg5LulIDEwNzAg5YWD6ZaL5Ye677yM5biC5aC05bCI5a625oyH5Ye677yM5Y+w6IKh5ZyoIDUg5pel57ea5LmL5LiL6ZyH55uq77yM5L2G5oqA6KGT6auY5qqU5oyH5qiZ5bCa5pyq6KaL6L2J5byx77yM5oqV6LOH5Lq65Lul5Y2A6ZaT5pON5L2c54iy5a6c44CCXG5cbuWPsOWMl+iCoeW4giAyIOaXpembhuS4reW4guWgtOWKoOasiuiCoeWDueaMh+aVuOaXqeebpOS7pcKgIDIyOTc1LjcxIOm7numWi+WHuu+8jOaXqeebpOaMh+aVuOacgOS9jiAyMjkyMi4zNiDpu57vvIzmkZznoLTlraPnt5rkuKbnl5vlpLEgMiDokKwgMyDpl5zljaHvvIzmnIDpq5jkvobliLAgMjMwMzUuNTgg6bue77yM6aCQ6KiI5YWo5aC05oiQ5Lqk5YC8IDI2MDkg5YSE5YWD44CC55uk5Lit6YeR6J6N6IKh6LeMIDAuMiXvvIzoiKrpgYvogqHkuIrmvLIgMC40NCXvvIzop4DlhYnppJDpo7LpoZ7ogqHkuIrmvLIgMC4xNyXvvIzpm7vlrZDogqHkuIvot4wgMC4yNCXjgIJcblxu6LOH5rex6K2J5Yi45YiG5p6Q5bir57Ch5Lyv5YSA5oyH5Ye677yM5Y+w6IKh5ZGI54++6YeP57iu6ZyH55uq5qC85bGA77yM5Zyo5aSn55uk6LeM56C0IDUg5pel57ea5LiU6YeP6IO96JCO57iu5LmL5LiL77yM5Lul5Y2A6ZaT5pON5L2c54iy5a6c44CCXG5cbuizh+a3seitieWIuOWIhuaekOW4q+m7g+a8ouaIkOiqqu+8jOWPsOiCoeimgeeVmeaEj+apn+WZqOS6uuWPiue2sumAmuamguW/teiCoeeahOWGjeW6puWZtOWHuu+8jOazqOaEjyAxMiDmnIjnh5/mlLbnmoTooajnj77jgILlsKTlhbblnKggMTIg5pyI5pyJ5qiZ5qGI5YWl5biz55qE57ay6YCa6IKh5peP576k5LiK44CCXG5cbuaXqeebpOWPsOiCoeasiuWAvOiCoeWPsOepjembu+S4i+i3jOOAgeW7o+mBlCAoWzIzODItVFddKGh0dHBzOi8vd3d3LmNueWVzLmNvbS90d3N0b2NrLzIzODIpKSDkuIrmvLLjgIHptLvmtbcgKFsyMzE3LVRXXShodHRwczovL3d3dy5jbnllcy5jb20vdHdzdG9jay8yMzE3KSkg5Y+K6IGv55m856eRIChbMjQ1NC1UV10oaHR0cHM6Ly93d3cuY255ZXMuY29tL3R3c3RvY2svMjQ1NCkpIOS7iuWkqeaXqeebpOi1sOW8t++8jOiYi+aenOamguW/teiCoeeahOWkp+eri+WFiSAoWzMwMDgtVFddKGh0dHBzOi8vd3d3LmNueWVzLmNvbS90d3N0b2NrLzMwMDgpKSDotbDlubMg77yM546J5pm25YWJIChbMzQwNi1UV10oaHR0cHM6Ly93d3cuY255ZXMuY29tL3R3c3RvY2svMzQwNikpIOiCoeWDueW8t+WLouS4iua8suOAglxuXG5JQyDovInmnb/poZ7ogqHotbDli6LkupLnlbDkuIrvvIzmrKPoiIggKFszMDM3LVRXXShodHRwczovL3d3dy5jbnllcy5jb20vdHdzdG9jay8zMDM3KSkg5LiK5ryy44CB5pmv56KpIChbMzE4OS1UV10oaHR0cHM6Ly93d3cuY255ZXMuY29tL3R3c3RvY2svMzE4OSkpIOWPiuWNl+mbuyAoWzgwNDYtVFddKGh0dHBzOi8vd3d3LmNueWVzLmNvbS90d3N0b2NrLzgwNDYpKSDmvLLot4zkupLopovjgILogIzosqjmq4PoiKrpgYvplbfmpq4gKFsyNjAzLVRXXShodHRwczovL3d3dy5jbnllcy5jb20vdHdzdG9jay8yNjAzKSnjgIHokKzmtbcgKFsyNjE1LVRXXShodHRwczovL3d3dy5jbnllcy5jb20vdHdzdG9jay8yNjE1KSkg5Y+K6Zm95piOIChbMjYwOS1UV10oaHR0cHM6Ly93d3cuY255ZXMuY29tL3R3c3RvY2svMjYwOSkpIOaXqeebpOWFqOaVuOS4iua8su+8jOS4puS7peiQrOa1t+eahOa8suWLouacgOW8t+OAglxuXG7lnKjmk43kvZzlu7rorbDkuIrvvIzlnIvnpajorYnliLjmjIflh7rvvIznlbbliY3lhbfln7rmnKzpnaLkvbPlgIvogqHvvIzogqHlg7noi6XmnInpganluqblm57mqpTvvIzlrpzlsIvoppPliIflhaXmqZ/mnIPjgILov5Hml6Xnm6TpnaLkuIrvvIzlhYnpgJrjgIHmqZ/lmajkurrlkowgQkJV77yM6Lyq55Wq54K66LOH6YeR6IGa6ZuG6KaB5Zyw77yM55W25YmN54ax5bqm5pyq5raI77yM5LuN5Y+v5YGP5aSa5Zug5oeJ44CC5Y+m5p2/5Y2h5peP576k5pa8IENFUyDlsZXkuIrmjqjlh7rmlrDnmoTpoa/ljaHvvIzmnInmnJvlvJXotbfmj5vmqZ/mva7mtYHvvIznm7jpl5zlpKflu6Dnh5/pgYvlj6/mnJ/vvIznlbbliY3ogqHlg7nlt7Lpganluqbkv67mraPvvIzlj6/nqY3mpbXlgY/lpJrluIPlsYDjgIIiLCLoq4vllY/pgJnlgIvosrzmlofmnInlk6rkupvmlLnpgLLkuYvomZXvvJ8iLCLoq4vpgLLooYzkv67mlLnjgIIiXX0=">
-                    使用範例
+                    基本範例
+                </a>
+                <a class="btn btn-dark btn-sm" role="button"
+                    href="./flow.html#data/eyJkZXNjcmlwdGlvbiI6IuevhOS+i+evhOS+i+evhOS+iyIsIm5hbWUiOiLnr4TkvosiLCJ0ZW1wZXJhdHVyZXMiOlsiMC4xIiwiMC4zIl0sImV4ZWN1dGUiOiI1IiwicHJvbXB0cyI6WyJ7e+evgOaXpX1955qEe3voqp7oqIB9fSIsIuWKoOWFpemAmeWAi+WWruWtl++8jOW5q+aIkemAoHt75pW46YePfX3lgIvku6V7e+WLleeJqX1954K65Li76aGM55qE5Y+l5a2Q44CCIl0sImtleXdvcmRzIjpbeyJ7e+evgOaXpX19IjpbIuaDheS6uuevgCIsIuS4reeni+evgCIsIuiBluiqleevgCJdLCJ7e+iqnuiogH19IjpbIuaXpeaWhyIsIuiLseaWhyJdfSx7Int75pW46YePfX0iOlsi5LiAIiwi5LqMIiwi5LiJIl0sInt75YuV54mpfX0iOlsi5YWU5a2QIiwi542F5a2QIl19XX0=">
+                    進階範例
                 </a>
             </p>
         </div>
@@ -222,11 +231,6 @@
                             <label for="provideSelect" class="form-label">選擇要使用的服務</label>
                             <select class="form-select border-dark" id="provide-select"></select>
                         </div>
-                        <!-- <div class="mb-3">
-                            <label for="temperature-input" class="form-label">發散程度：</label>
-                            <input type="range" class="form-range" min="0" max="1" step="0.1" value="0.3"
-                                id="temperature-input">
-                        </div> -->
                         <div>
                             <label for="execute-input" class="form-label">執行次數：</label>
                             <input type="range" class="form-range" min="1" max="20" step="1" value="1"
@@ -251,6 +255,9 @@
                             <input class="form-range temperature-input" min="0" max="1" step="0.1" value="0.3"
                                 type="range">
                             <div style="width: 150px; text-align: center;">創意回覆</div>
+                        </div>
+                        <div class="w-100 mt-3 d-md-block d-none">
+                            <button type="button" class="btn btn-dark w-100 add-taginput-btn">加入每次執行要替換文字</button>
                         </div>
                     </div>
                 </div>
@@ -294,6 +301,11 @@
         </a>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/markdown-it@14.1.0/dist/markdown-it.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <script>
         const md = window.markdownit();
         let mdResult = "";
@@ -389,6 +401,43 @@
             checkApiKey();
         });
 
+        // 在 document.addEventListener('DOMContentLoaded', ...) 中添加
+        document.addEventListener('click', function (e) {
+            // 處理添加替換文字區塊的按鈕點擊
+            if (e.target.classList.contains('add-taginput-btn')) {
+                const parentAccordionBody = e.target.closest('.accordion-body');
+
+                // 創建新的替換文字輸入區塊
+                const newRow = document.createElement('div');
+                newRow.className = 'row mt-3 d-md-flex d-none';
+                newRow.innerHTML = `
+                    <div class="col-3 pe-1">
+                        <input value="{{節日}}" placeholder="指定要替換的文字" class="key-input form-control border-dark w-100 h-100">
+                    </div>
+                    <div class="col-7 pe-1">
+                        <input value="情人節,中秋節,聖誕節" placeholder="要依序替換成什麼？" class="tag-input rounded border-dark" name='basic'>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="remove-taginput-btn btn btn-dark w-100 h-100">移除</button>
+                    </div>
+                `;
+
+                // 將新區塊插入到按鈕後面
+                e.target.parentElement.insertAdjacentElement('afterend', newRow);
+
+                // 初始化新增的 tag input
+                const newTagInput = newRow.querySelector('.tag-input');
+                new Tagify(newTagInput);
+            }
+
+            // 處理移除替換文字區塊的按鈕點擊
+            if (e.target.classList.contains('remove-taginput-btn')) {
+                const rowToRemove = e.target.closest('.row');
+                if (rowToRemove) {
+                    rowToRemove.remove();
+                }
+            }
+        });
 
         function decodeFromHash() {
             if (location.hash.startsWith('#data/')) {
@@ -396,101 +445,168 @@
                 try {
                     const decodedPrompt = fromBase64(base64);
                     const data = JSON.parse(decodedPrompt);
+
+                    // 清空既有流程
+                    const accordionContainer = document.getElementById("accordionContainer");
+                    // 保存第一個設定項目(API設定)
+                    const firstAccordionItem = accordionContainer.children[0];
+                    // 清空容器
+                    accordionContainer.innerHTML = '';
+                    // 放回第一個設定項目
+                    accordionContainer.appendChild(firstAccordionItem);
+
+                    // 填入基本資料
                     document.getElementById("description-textarea").value = data.description || "";
                     document.getElementById("name-input").value = data.name || "";
-                    // document.getElementById("temperature-input").value = data.temperatures;
-                    document.getElementById("execute-input").value = data.execute;
-                    // document.getElementById("temperature-input").previousElementSibling.textContent = `發散程度：${data.temperature}`
-                    document.getElementById("execute-input").previousElementSibling.textContent = `執行次數：${data.execute}`
+                    document.getElementById("execute-input").value = data.execute || "1";
+                    document.getElementById("execute-input").previousElementSibling.textContent =
+                        `執行次數：${data.execute || "1"}`;
+
+                    // 處理每個提示詞
                     data.prompts.forEach(function (prompt, index) {
                         if (index === 0) {
-                            // 為第一個提示詞更新現有的輸入欄位
-                            const firstTextarea = document.getElementById("formControlTextarea1");
-                            firstTextarea.value = prompt;
-                            firstTextarea.style.height = "300px";
-                            firstTextarea.nextElementSibling.querySelector("input").value = data.temperatures[index];
+                            // 創建第一個提示詞的輸入欄位
+                            const firstAccordionItem = document.createElement("div");
+                            firstAccordionItem.className = "accordion-item border-dark";
+                            firstAccordionItem.innerHTML = `
+                        <h2 class="accordion-header" id="heading1">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#collapse1" aria-expanded="false" 
+                                aria-controls="collapse1">
+                                提示詞流程 #1
+                            </button>
+                        </h2>
+                        <div id="collapse1" class="accordion-collapse collapse" 
+                            aria-labelledby="heading1">
+                            <div class="accordion-body p-4">
+                                <textarea class="form-control p-3 border-dark" 
+                                    id="formControlTextarea1" 
+                                    placeholder="寫點提示詞吧！">${prompt}</textarea>
+                                <div class="d-flex mt-3 border border-1 border-dark rounded px-2 py-3">
+                                    <div style="width: 150px; text-align: center;">嚴謹回覆</div>
+                                    <input class="form-range temperature-input" min="0" max="1" 
+                                        step="0.1" value="${data.temperatures[index] || '0.3'}" type="range">
+                                    <div style="width: 150px; text-align: center;">創意回覆</div>
+                                </div>
+                                <div class="w-100 mt-3 d-md-block d-none">
+                                    <button type="button" class="btn btn-dark w-100 add-taginput-btn">
+                                        加入每次執行要替換文字
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                            accordionContainer.appendChild(firstAccordionItem);
+
+                            const textarea = firstAccordionItem.querySelector('textarea');
+                            textarea.style.height = "300px";
+
+                            // 如果存在關鍵字替換設定且不為空對象
+                            if (data.keywords && data.keywords[index] && Object.keys(data.keywords[index]).length > 0) {
+                                const keywords = data.keywords[index];
+                                Object.entries(keywords).forEach(([key, values]) => {
+                                    // 創建新的替換文字輸入區塊
+                                    const newRow = document.createElement('div');
+                                    newRow.className = 'row mt-3 d-md-flex d-none';
+                                    newRow.innerHTML = `
+                                <div class="col-3 pe-1">
+                                    <input value="${key}" placeholder="指定要替換的文字" class="key-input form-control border-dark w-100 h-100">
+                                </div>
+                                <div class="col-7 pe-1">
+                                    <input value="${values.join(',')}" placeholder="要依序替換成什麼？" class="tag-input rounded border-dark" name='basic'>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="remove-taginput-btn btn btn-dark w-100 h-100">移除</button>
+                                </div>
+                            `;
+
+                                    const accordionBody = textarea.closest('.accordion-body');
+                                    accordionBody.appendChild(newRow);
+
+                                    // 初始化 Tagify
+                                    const tagInput = newRow.querySelector('.tag-input');
+                                    new Tagify(tagInput);
+                                });
+                            }
+
                         } else {
                             // 為其餘提示詞建立新的輸入欄位
-                            const accordionContainer = document.getElementById("accordionContainer");
                             const accordionItem = document.createElement("div");
                             accordionItem.className = "accordion-item border-dark";
 
-                            const accordionHeader = document.createElement("h2");
-                            accordionHeader.className = "accordion-header";
-                            accordionHeader.id = `heading${index + 1}`;
+                            // 創建 accordion 結構
+                            accordionItem.innerHTML = `
+                        <h2 class="accordion-header" id="heading${index + 1}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                                data-bs-target="#collapse${index + 1}" aria-expanded="false" 
+                                aria-controls="collapse${index + 1}">
+                                提示詞流程 #${index + 1}
+                            </button>
+                        </h2>
+                        <div id="collapse${index + 1}" class="accordion-collapse collapse" 
+                            aria-labelledby="heading${index + 1}">
+                            <div class="accordion-body p-4">
+                                <textarea class="form-control p-3 border-dark" 
+                                    id="formControlTextarea${index + 1}" 
+                                    placeholder="寫點提示詞吧！">${prompt}</textarea>
+                                <div class="d-flex mt-3 border border-1 border-dark rounded px-2 py-3">
+                                    <div style="width: 150px; text-align: center;">嚴謹回覆</div>
+                                    <input class="form-range temperature-input" min="0" max="1" 
+                                        step="0.1" value="${data.temperatures[index] || '0.3'}" type="range">
+                                    <div style="width: 150px; text-align: center;">創意回覆</div>
+                                </div>
+                                <div class="w-100 mt-3 d-md-block d-none">
+                                    <button type="button" class="btn btn-dark w-100 add-taginput-btn">
+                                        加入每次執行要替換文字
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
 
-                            const accordionButton = document.createElement("button");
-                            accordionButton.className = "accordion-button collapsed";
-                            accordionButton.type = "button";
-                            accordionButton.setAttribute("data-bs-toggle", "collapse");
-                            accordionButton.setAttribute("data-bs-target", `#collapse${index + 1}`);
-                            accordionButton.setAttribute("aria-expanded", "false");
-                            accordionButton.setAttribute("aria-controls", `collapse${index + 1}`);
-                            accordionButton.textContent = `提示詞流程 #${index + 1}`;
-
-                            accordionHeader.appendChild(accordionButton);
-
-                            const accordionCollapse = document.createElement("div");
-                            accordionCollapse.id = `collapse${index + 1}`;
-                            accordionCollapse.className = "accordion-collapse collapse";
-                            accordionCollapse.setAttribute("aria-labelledby", `heading${index + 1}`);
-
-                            const accordionBody = document.createElement("div");
-                            accordionBody.className = "accordion-body p-4";
-
-                            // 創建textarea
-                            const textarea = document.createElement("textarea");
-                            textarea.className = "form-control p-3 border-dark";
-                            textarea.id = `formControlTextarea${index + 1}`;
-                            textarea.placeholder = "寫點提示詞吧！";
-                            textarea.value = prompt;
-
-                            // 創建溫度控制容器
-                            const temperatureContainer = document.createElement("div");
-                            temperatureContainer.className = "d-flex mt-3 border border-1 border-dark rounded px-2 py-3";
-
-                            // 創建左側文字
-                            const leftText = document.createElement("div");
-                            leftText.style.width = "150px";
-                            leftText.style.textAlign = "center";
-                            leftText.textContent = "嚴謹回覆";
-
-                            // 創建滑塊
-                            const temperatureInput = document.createElement("input");
-                            temperatureInput.className = "form-range temperature-input";
-                            temperatureInput.type = "range";
-                            temperatureInput.min = "0";
-                            temperatureInput.max = "1";
-                            temperatureInput.step = "0.1";
-                            temperatureInput.value = "0.3";
-
-                            // 創建右側文字
-                            const rightText = document.createElement("div");
-                            rightText.style.width = "150px";
-                            rightText.style.textAlign = "center";
-                            rightText.textContent = "創意回覆";
-
-                            // 組裝溫度控制元素
-                            temperatureContainer.appendChild(leftText);
-                            temperatureContainer.appendChild(temperatureInput);
-                            temperatureContainer.appendChild(rightText);
-
-                            // 組裝所有元素
-                            accordionBody.appendChild(textarea);
-                            accordionBody.appendChild(temperatureContainer);
-                            accordionCollapse.appendChild(accordionBody);
-                            accordionItem.appendChild(accordionHeader);
-                            accordionItem.appendChild(accordionCollapse);
                             accordionContainer.appendChild(accordionItem);
 
-                            // 設置textarea高度和事件監聽
+                            // 設置 textarea 高度
+                            const textarea = accordionItem.querySelector('textarea');
                             textarea.style.height = "300px";
+
+                            // 如果存在關鍵字替換設定且不為空對象
+                            if (data.keywords && data.keywords[index] && Object.keys(data.keywords[index]).length > 0) {
+                                const keywords = data.keywords[index];
+                                Object.entries(keywords).forEach(([key, values]) => {
+                                    // 創建新的替換文字輸入區塊
+                                    const newRow = document.createElement('div');
+                                    newRow.className = 'row mt-3 d-md-flex d-none';
+                                    newRow.innerHTML = `
+                                <div class="col-3 pe-1">
+                                    <input value="${key}" placeholder="指定要替換的文字" 
+                                        class="key-input form-control border-dark w-100 h-100">
+                                </div>
+                                <div class="col-7 pe-1">
+                                    <input value="${values.join(',')}" placeholder="要依序替換成什麼？" 
+                                        class="tag-input rounded border-dark" name='basic'>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="remove-taginput-btn btn btn-dark w-100 h-100">
+                                        移除
+                                    </button>
+                                </div>
+                            `;
+
+                                    const accordionBody = textarea.closest('.accordion-body');
+                                    accordionBody.appendChild(newRow);
+
+                                    // 初始化 Tagify
+                                    const tagInput = newRow.querySelector('.tag-input');
+                                    new Tagify(tagInput);
+                                });
+                            }
+
+                            // 添加事件監聽器
                             textarea.addEventListener("input", function (e) {
                                 document.getElementById("save-link-section").innerHTML = "";
-                                textarea.style.height = "300px";
+                                this.style.height = "300px";
                             });
-
-                            textarea.nextElementSibling.querySelector("input").value = data.temperatures[index];
                         }
                     });
                 } catch (e) {
@@ -498,6 +614,7 @@
                 }
             }
         }
+
 
         function handleHashChange() {
             decodeFromHash();
@@ -546,14 +663,24 @@
                 name: document.getElementById("name-input").value || "",
                 temperatures: [],
                 execute: document.getElementById("execute-input").value,
-                prompts: []
+                prompts: [],
+                keywords: []
             };
+
             document.querySelectorAll("#accordionContainer textarea").forEach(function (textarea) {
+                if (textarea.value == "") return
                 data.prompts.push(textarea.value);
+                textarea.parentElement.querySelectorAll(".temperature-input").forEach(function (input) {
+                    data.temperatures.push(input.value);
+                });
+                const temp = {};
+                textarea.parentElement.querySelectorAll(".key-input").forEach(function (input) {
+                    const key = input.value;
+                    temp[key] = JSON.parse(input.parentElement.parentElement.querySelectorAll(".tag-input")[1].value).map(e => e.value)
+                });
+                data.keywords.push(temp)
             });
-            document.querySelectorAll("#accordionContainer .temperature-input").forEach(function (input) {
-                data.temperatures.push(input.value);
-            });
+
             const jsonStr = JSON.stringify(data);
             const base64 = toBase64(jsonStr);
             const shareURL = `${window.location.origin}${window.location.pathname}#data/${base64}`;
@@ -702,6 +829,13 @@
             const temperatureContainer = document.createElement("div");
             temperatureContainer.className = "d-flex mt-3 border border-1 border-dark rounded px-2 py-3";
 
+            // 在原有的 textarea 和溫度控制元素之後加入替換文字按鈕
+            const replaceButton = document.createElement("div");
+            replaceButton.className = "w-100 mt-3 d-md-block d-none";
+            replaceButton.innerHTML = `
+                <button type="button" class="btn btn-dark w-100 add-taginput-btn">加入每次執行要替換文字</button>
+            `;
+
             // 創建左側文字
             const leftText = document.createElement("div");
             leftText.style.width = "150px";
@@ -731,6 +865,7 @@
             // 組裝所有元素
             accordionBody.appendChild(textarea);
             accordionBody.appendChild(temperatureContainer);
+            accordionBody.appendChild(replaceButton);  // 加入新元素
             accordionCollapse.appendChild(accordionBody);
             accordionItem.appendChild(accordionHeader);
             accordionItem.appendChild(accordionCollapse);
@@ -778,10 +913,6 @@
                 }
             });
         });
-        // document.getElementById("temperature-input").addEventListener("input", function () {
-        //     document.getElementById("save-link-section").innerHTML = "";
-        //     this.previousElementSibling.textContent = `發散程度：${this.value}`;
-        // });
         document.getElementById("execute-input").addEventListener("input", function () {
             document.getElementById("save-link-section").innerHTML = "";
             this.previousElementSibling.textContent = `執行次數：${this.value}`;
@@ -799,7 +930,7 @@
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${String(microseconds).padStart(6, '0')}`;
         }
 
-        async function sendRequests(execute, prompts, model, temperatures, apikey, provide) {
+        async function sendRequests(execute, prompts, model, temperatures, apikey, provide, keywords) {
             let reply;
             let result = document.getElementById("result");
 
@@ -938,8 +1069,11 @@
                 result.insertBefore(accordion, result.firstChild);
 
                 for (let j = 0; j < prompts.length; j++) {
-                    // console.log(replyArr)
-                    const prompt = prompts[j];
+                    let prompt = prompts[j];
+                    const keyword = keywords[j];
+                    Object.keys(keyword).forEach(key => {
+                        prompt = prompt.replaceAll(key, keyword[key][i % keyword[key].length])
+                    });
                     replyArr.push({ "role": "user", "content": prompt })
                     const body = {
                         "model": model,
@@ -1113,44 +1247,35 @@
             const execute = document.getElementById("execute-input").value;
             const prompts = [];
             const temperatures = [];
+            const keywords = [];
             document.querySelectorAll("#accordionContainer textarea").forEach(function (textarea) {
                 textarea.value = textarea.value.trim()
                 if (textarea.value == "") return
+                textarea.parentElement.querySelectorAll(".temperature-input").forEach(function (input) {
+                    temperatures.push(input.value);
+                });
                 prompts.push(textarea.value);
+                const temp = {};
+                textarea.parentElement.querySelectorAll(".key-input").forEach(function (input) {
+                    const key = input.value;
+                    temp[key] = JSON.parse(input.parentElement.parentElement.querySelectorAll(".tag-input")[1].value).map(e => e.value)
+                });
+                keywords.push(temp)
             });
-            document.querySelectorAll("#accordionContainer .temperature-input").forEach(function (input) {
-                temperatures.push(input.value);
-            });
+
             try {
-                await sendRequests(execute, prompts, model, temperatures, apikey, provide);
+                await sendRequests(execute, prompts, model, temperatures, apikey, provide, keywords);
             } catch (error) {
                 console.error("Error:", error);
             } finally {
                 // 恢復所有按鈕狀態
                 buttons.forEach(btn => btn.disabled = false);
                 sendBtn.innerHTML = "送出";
-
-                // 先關閉所有展開的accordion
-                // const expandedAccordions = document.querySelectorAll('#result .accordion-collapse.show');
-                // expandedAccordions.forEach(accordion => {
-                //     const button = document.querySelector(`[data-bs-target="#${accordion.id}"]`);
-                //     if (button && !button.classList.contains('collapsed')) {
-                //         button.click();
-                //     }
-                // });
-
-                // sleep 500ms
-                // await new Promise(resolve => setTimeout(resolve, 500));
-                // console.log(document.querySelector('#result .accordion-button'))
-                // document.querySelector('#result .accordion-button').click();
             }
         });
 
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-        crossorigin="anonymous"></script>
 </body>
 
 </html>
