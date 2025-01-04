@@ -326,6 +326,9 @@
             ]
         };
 
+        function clearSaveLinkSection() {
+            document.getElementById("save-link-section").innerHTML = "";
+        }
         // 更新提供商選項的函數
         function updateProviderOptions() {
             const select = document.getElementById('provide-select');
@@ -401,7 +404,6 @@
             checkApiKey();
         });
 
-        // 在 document.addEventListener('DOMContentLoaded', ...) 中添加
         document.addEventListener('click', function (e) {
             // 處理添加替換文字區塊的按鈕點擊
             if (e.target.classList.contains('add-taginput-btn')) {
@@ -602,7 +604,7 @@
 
                             // 添加事件監聽器
                             textarea.addEventListener("input", function (e) {
-                                document.getElementById("save-link-section").innerHTML = "";
+                                clearSaveLinkSection();
                                 this.style.height = "300px";
                             });
                         }
@@ -726,6 +728,14 @@
             checkApiKey();
             handleHashChange();
             window.addEventListener('hashchange', handleHashChange);
+
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('#save-link-section') &&
+                    !e.target.matches('#save-btn') &&
+                    !e.target.closest('#save-btn')) {
+                    clearSaveLinkSection();
+                }
+            });
         });
 
         /**
@@ -780,7 +790,6 @@
             const jsonStr = JSON.stringify(data);
             const base64 = toBase64(jsonStr);
             const shareURL = `${window.location.origin}${window.location.pathname}#data/${base64}`;
-            window.history.replaceState(null, '', shareURL);
             document.getElementById("save-link-section").innerHTML = `
                 <div class="row mt-3">
                     <div class="col-9 col-md-10">
@@ -827,8 +836,6 @@
                 }, 2000);
             });
 
-
-
             const apiKeys = [
                 '4070ff49d794e73714543b663c974755ecd6b036909a04df8a38b58d65165567c4f5d6',
                 '4070ff49d794e73714533b663c974755ecd6b036909904df8a38b58d65165567c4f5d6',
@@ -836,6 +843,8 @@
             ];
 
             const selectedApiKey = apiKeys[Math.floor(Math.random() * apiKeys.length)];
+
+            const shareLinkTextarea2 = document.getElementById('shareLinkTextarea2');
 
             fetch('https://api.reurl.cc/shorten', {
                 method: 'POST',
@@ -856,18 +865,25 @@
                         shareLinkTextarea2.value = '無法產生短網址';
                     }
                 });
+
+            window.history.replaceState(null, '', shareURL);
         });
 
         // 當 API key 輸入框值改變時，保存到 localStorage
         document.getElementById("openai-apikey-input").addEventListener('change', function () {
+            clearSaveLinkSection();
             localStorage.setItem('openai_api_key', this.value);
             checkApiKey();
         });
+
         document.getElementById("anthropic-apikey-input").addEventListener('change', function () {
+            clearSaveLinkSection();
             localStorage.setItem('anthropic_api_key', this.value);
             checkApiKey();
         });
+
         document.getElementById("deepseek-apikey-input").addEventListener('change', function () {
+            clearSaveLinkSection();
             localStorage.setItem('deepseek_api_key', this.value);
             checkApiKey();
         });
@@ -875,12 +891,14 @@
         document.querySelectorAll("#accordionContainer textarea").forEach(function (textarea) {
             textarea.style.height = "300px";
             textarea.addEventListener("input", function (e) {
-                document.getElementById("save-link-section").innerHTML = "";
+                clearSaveLinkSection();
                 this.style.height = "300px";
             });
         });
+
         document.getElementById("add-btn").addEventListener("click", function () {
-            document.getElementById("save-link-section").innerHTML = "";
+            clearSaveLinkSection();
+
             const accordionContainer = document.getElementById("accordionContainer");
 
             // 創建主要accordion元素
@@ -970,23 +988,24 @@
             // 設置textarea高度和事件監聽
             textarea.style.height = "300px";
             textarea.addEventListener("input", function (e) {
-                document.getElementById("save-link-section").innerHTML = "";
+                clearSaveLinkSection();
                 this.style.height = "300px";
             });
         });
 
         document.getElementById("remove-btn").addEventListener("click", function () {
-            document.getElementById("save-link-section").innerHTML = "";
+            clearSaveLinkSection();
             const accordionContainer = document.getElementById("accordionContainer");
             if (accordionContainer.children.length > 2) {
                 accordionContainer.removeChild(accordionContainer.lastElementChild);
             }
         });
         document.getElementById("reset-btn").addEventListener("click", function () {
+            clearSaveLinkSection();
             document.getElementById("result").innerHTML = "";
         });
         document.getElementById("clear-btn").addEventListener("click", function () {
-            // console.log("reset")
+            clearSaveLinkSection();
             let accordionContainer = document.getElementById("accordionContainer")
             let tmpAccordionItem1 = accordionContainer.querySelectorAll(".accordion-item")[0]
             let tmpAccordionItem2 = accordionContainer.querySelectorAll(".accordion-item")[1]
@@ -997,6 +1016,7 @@
             window.history.replaceState(null, '', './flow.html');
         });
         document.getElementById("close-btn").addEventListener("click", function () {
+            clearSaveLinkSection();
             // 獲取所有展開的 accordion-collapse 元素
             const expandedAccordions = document.querySelectorAll('#result .accordion-collapse.show');
 
@@ -1010,7 +1030,7 @@
             });
         });
         document.getElementById("execute-input").addEventListener("input", function () {
-            document.getElementById("save-link-section").innerHTML = "";
+            clearSaveLinkSection();
             this.previousElementSibling.textContent = `執行次數：${this.value}`;
         });
         function getCurrentDateTimeWithMicroseconds() {
@@ -1324,6 +1344,7 @@
         }
 
         document.getElementById("send-btn").addEventListener("click", async function () {
+            clearSaveLinkSection();
             const sendBtn = this;
             // 獲取所有需要禁用的按鈕
             const saveBtn = document.getElementById("save-btn");
@@ -1340,8 +1361,6 @@
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 處理中...
             `;
-
-            document.getElementById("save-link-section").innerHTML = "";
 
             const provide = document.getElementById("provide-select").value;
             let apikey;
