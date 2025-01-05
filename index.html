@@ -225,12 +225,12 @@
                 </div>
                 <div class="modal-body">
                     <p>Promptium 提供用戶以下兩種方式進行分享，編輯連結可以永久保存資料，而分享網址則會不定期刪除非活躍連結。建議用戶妥善保管兩種連結，一旦關閉網站，連結將會被清除。</p>
-                    <p class="m-0">編輯連結：</p>
+                    <p class="m-0">分享連結：</p>
                     <div class="my-3">
                         <textarea class="form-control" id="shareLinkTextarea" readonly
                             style="height: 55px; overflow-y: hidden;"></textarea>
                     </div>
-                    <p class="m-0">分享網址：</p>
+                    <p class="m-0">縮短網址：</p>
                     <div class="mt-2">
                         <textarea class="form-control" id="shortShareLinkTextarea" readonly
                             style="height: 30px; overflow-y: hidden;"></textarea>
@@ -238,8 +238,8 @@
                     <div class="alert alert-success mt-3" id="shareCopyAlert" style="display:none;">已成功複製連結！</div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="copyShareLinkButton" class="btn btn-dark">複製編輯連結</button>
-                    <button type="button" id="copyShortShareLinkTextarea" class="btn btn-dark">複製分享連結</button>
+                    <button type="button" id="copyShareLinkButton" class="btn btn-dark">複製分享連結</button>
+                    <button type="button" id="copyShortShareLinkTextarea" class="btn btn-dark">複製縮短網址</button>
                 </div>
             </div>
         </div>
@@ -706,7 +706,7 @@
                             // 將 short_url 寫入 shortShareLinkTextarea
                             shortShareLinkTextarea.value = data.short_url;
                         } else {
-                            shortShareLinkTextarea.value = '無法產生短網址';
+                            shortShareLinkTextarea.value = '內容太多，無法縮短網址！';
                         }
                     });
 
