@@ -42,8 +42,6 @@
             font-size: 1rem;
         }
 
-
-
         .ask-sec {
             background-color: hsla(0, 0%, 91%, .5) !important;
         }
@@ -471,6 +469,13 @@
             }
         });
 
+        function createSeparator() {
+            let separator = document.createElement("div");
+            separator.className = "d-block w-100 mt-3 text-center";
+            separator.textContent = "▼";
+            return separator;
+        }
+
         function decodeFromHash() {
             if (location.hash.startsWith('#data/')) {
                 const base64 = location.hash.replace('#data/', '');
@@ -680,6 +685,11 @@
                             chatCard.className = "chatCard";
 
                             resultSet.forEach((result, index) => {
+                                // 如果是偶數索引（問題）並且不是第一個，添加分隔符
+                                if (index % 2 === 0 && index > 0) {
+                                    chatCard.appendChild(createSeparator());
+                                }
+
                                 // 創建提示詞和回覆的卡片
                                 let cardContainer = document.createElement("div");
                                 cardContainer.className = index === 0 ? "d-flex w-100" : "d-flex w-100 mt-3";
@@ -1222,6 +1232,10 @@
                 result.insertBefore(accordion, result.firstChild);
 
                 for (let j = 0; j < prompts.length; j++) {
+                    if (j > 0) {
+                        chatCard.appendChild(createSeparator());
+                    }
+
                     let prompt = prompts[j];
                     const keyword = keywords[j];
                     Object.keys(keyword).forEach(key => {
@@ -1239,9 +1253,7 @@
 
                     const bodystr = JSON.stringify(body);
                     let cardContainer = document.createElement("div");
-                    if (j === 0) cardContainer.className = "d-flex w-100";
-                    if (j != 0) cardContainer.className = "d-flex w-100 mt-3";
-
+                    cardContainer.className = j === 0 ? "d-flex w-100" : "d-flex w-100 mt-3";
 
                     // 創建提示詞容器
                     let promptContainer = document.createElement("div");
