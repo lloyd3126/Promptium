@@ -320,6 +320,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
     <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
     <script>
+
+
         const md = window.markdownit();
         let mdResult = "";
         let replyArr = []
@@ -722,6 +724,32 @@
 
         // 在頁面載入時初始化
         document.addEventListener('DOMContentLoaded', () => {
+            // 首先創建 modal（如果還不存在的話）
+            if (!document.getElementById('expandModal')) {
+                const modal = document.createElement('div');
+                modal.className = 'modal fade';
+                modal.id = 'expandModal';
+                modal.tabIndex = '-1';
+                modal.innerHTML = `
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">完整內容</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="p-3 d-flex flex-column" id="modalContent"></div>
+                                <textarea id="modalContentTextarea" class="d-none"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="copy-btn3" type="button" class="btn btn-dark">複製為 Markdown</button>
+                                <button id="copy-btn4" type="button" class="btn btn-dark">複製</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
             // 讀取儲存的 API keys
             const savedOpenAIApiKey = localStorage.getItem('openai_api_key');
             if (savedOpenAIApiKey) {
@@ -1082,32 +1110,7 @@
             let reply;
             let result = document.getElementById("result");
 
-            // 首先創建 modal（如果還不存在的話）
-            if (!document.getElementById('expandModal')) {
-                const modal = document.createElement('div');
-                modal.className = 'modal fade';
-                modal.id = 'expandModal';
-                modal.tabIndex = '-1';
-                modal.innerHTML = `
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">完整內容</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="p-3 d-flex flex-column" id="modalContent"></div>
-                                <textarea id="modalContentTextarea" class="d-none"></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button id="copy-btn3" type="button" class="btn btn-dark">複製為 Markdown</button>
-                                <button id="copy-btn4" type="button" class="btn btn-dark">複製</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-            }
+
 
             document.getElementById("copy-btn3").addEventListener('click', () => {
                 let markdownContent = document.getElementById('modalContentTextarea').value
