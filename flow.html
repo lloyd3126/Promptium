@@ -33,6 +33,15 @@
             font-size: 1rem;
         }
 
+        .btn-dark,
+        .bg-dark {
+            background-color: rgba(0, 0, 0, .8) !important;
+        }
+
+        .ask-sec {
+            background-color: hsla(0, 0%, 91%, .5) !important;
+        }
+
         .ask-sec,
         .reply-sec {
             height: 176px;
@@ -671,7 +680,11 @@
 
                                 // 內容容器
                                 let contentContainer = document.createElement("div");
-                                contentContainer.className = "card p-3 m-0 reply-sec position-relative me-2 border-dark";
+                                if (index % 2 == 1) {
+                                    contentContainer.className = "card p-3 m-0 reply-sec position-relative me-2 border-dark";
+                                } else {
+                                    contentContainer.className = "card p-3 m-0 shadow-none bg-light rounded position-relative ask-sec me-2 border-dark";
+                                }
 
                                 let contentWrapper = document.createElement("div");
                                 contentWrapper.className = "content-wrapper";
