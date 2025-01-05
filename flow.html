@@ -855,7 +855,7 @@
                 data.result.push(tmp);
             });
 
-            console.log(data)
+            // console.log(data)
 
             const jsonStr = JSON.stringify(data);
             const base64 = toBase64(jsonStr);
@@ -883,8 +883,51 @@
                         <button id="copy-btn2" type="button" class="w-100 btn btn-dark">複製</button>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <button id="download-btn" type="button" class="w-100 btn btn-dark">將連結保存為檔案</button>
+                    </div>
+                </div>
+                <hr/>
                 
             `;
+
+            document.getElementById("download-btn").addEventListener('click', () => {
+                // 取得連結值
+                const linkValue = document.getElementById("shareLinkTextarea1").value;
+
+                // 創建 HTML 內容
+                let htmlContent = `
+                <html lang="en">
+                <head>
+                    <script type="text/javascript">
+                        (function () {
+                            location.href = "${linkValue}";
+                        })();
+                    <script>
+                </head>
+                </html>`;
+
+                htmlContent = htmlContent.replace("script>", "/script>")
+
+                // 創建 Blob 物件
+                const blob = new Blob([htmlContent], { type: 'text/html' });
+
+                // 創建下載連結
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'redirect.html';
+
+                // 觸發下載
+                document.body.appendChild(a);
+                a.click();
+
+                // 清理
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            });
+
 
             document.getElementById("copy-btn1").addEventListener('click', () => {
                 document.getElementById("shareLinkTextarea1").select();
