@@ -779,6 +779,41 @@
                 `;
                 document.body.appendChild(modal);
             }
+
+            document.getElementById("copy-btn3").addEventListener('click', () => {
+                let markdownContent = document.getElementById('modalContentTextarea').value
+
+                console.log(markdownContent)
+                navigator.clipboard.writeText(markdownContent).then(() => {
+                    const shareCopyAlert = document.getElementById('shareCopyAlert');
+                    shareCopyAlert.style.display = 'block';
+                    setTimeout(() => {
+                        shareCopyAlert.style.display = 'none';
+                    }, 2000);
+                }).catch(err => {
+                    console.error('無法複製文字: ', err);
+                });
+            });
+
+            document.getElementById("copy-btn4").addEventListener('click', () => {
+                const e = document.getElementById("modalContent");
+                const r = document.createRange();
+                r.selectNodeContents(e);
+                const s = window.getSelection();
+                s.removeAllRanges();
+                s.addRange(r);
+                document.execCommand("copy");
+                if (window.getSelection) {
+                    window.getSelection().removeAllRanges(); // 現代瀏覽器
+                } else if (document.selection) {
+                    document.selection.empty(); // 舊版 IE
+                }
+                shareCopyAlert.style.display = 'block';
+                setTimeout(() => {
+                    shareCopyAlert.style.display = 'none';
+                }, 2000);
+            });
+
             // 讀取儲存的 API keys
             const savedOpenAIApiKey = localStorage.getItem('openai_api_key');
             if (savedOpenAIApiKey) {
@@ -1174,52 +1209,17 @@
                 let mdContent = md.render(content)
                 document.getElementById('modalContent').innerHTML = mdContent;
                 document.getElementById('modalContentTextarea').value = content;
-
                 modal.show();
             };
 
             return expandButton;
         }
 
+
+
         async function sendRequests(execute, prompts, model, temperatures, apikey, provide, keywords) {
             let reply;
             let result = document.getElementById("result");
-
-
-
-            document.getElementById("copy-btn3").addEventListener('click', () => {
-                let markdownContent = document.getElementById('modalContentTextarea').value
-                navigator.clipboard.writeText(markdownContent).then(() => {
-                    const shareCopyAlert = document.getElementById('shareCopyAlert');
-                    shareCopyAlert.style.display = 'block';
-                    setTimeout(() => {
-                        shareCopyAlert.style.display = 'none';
-                    }, 2000);
-                }).catch(err => {
-                    console.error('無法複製文字: ', err);
-                });
-            });
-
-            document.getElementById("copy-btn4").addEventListener('click', () => {
-                const e = document.getElementById("modalContent");
-                const r = document.createRange();
-                r.selectNodeContents(e);
-                const s = window.getSelection();
-                s.removeAllRanges();
-                s.addRange(r);
-                document.execCommand("copy");
-                if (window.getSelection) {
-                    window.getSelection().removeAllRanges(); // 現代瀏覽器
-                } else if (document.selection) {
-                    document.selection.empty(); // 舊版 IE
-                }
-                shareCopyAlert.style.display = 'block';
-                setTimeout(() => {
-                    shareCopyAlert.style.display = 'none';
-                }, 2000);
-            });
-
-
 
             for (let i = 0; i < Number(execute); i++) {
                 replyArr = []
