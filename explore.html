@@ -18,19 +18,21 @@
             font-family: "Noto Sans Mono", "Noto Sans TC", sans-serif;
         }
 
-        h1 {
+        #lodgSec h1 {
             font-family: "Racing Sans One", sans-serif;
             font-weight: 400;
             font-style: normal;
             font-size: 64px;
             user-select: none;
-            /* 標準屬性 */
             -webkit-user-select: none;
-            /* Safari */
             -moz-user-select: none;
-            /* Firefox */
             -ms-user-select: none;
-            /* Internet Explorer/Edge */
+        }
+
+        @media (max-width:576px) {
+            #lodgSec h1 {
+                font-size: 48px;
+            }
         }
 
         p {
@@ -86,13 +88,11 @@
 </head>
 
 <body>
-    <div class="container px-5 pt-5" style="max-width: 56rem; min-height: 102vh;">
-        <div class="row mb-4">
-            <div class="row mb-4">
-                <a href="/" class="text-decoration-none link-dark">
-                    <h1 class="text-center no-select">Promptium</h1>
-                </a>
-            </div>
+    <div class="container px-5 pt-5 mb-5" style="max-width: 56rem; min-height: 130vh;">
+        <div class="row mb-4" id="lodgSec">
+            <a href="/" class="text-decoration-none link-dark mb-4">
+                <h1 class="text-center no-select">Promptium</h1>
+            </a>
         </div>
         <div class="row mb-4">
             <h2 class="fs-6 mb-3 fw-bold">如何使用</h2>
@@ -100,21 +100,21 @@
                 使用 Promptium 可以輕鬆的分享提示詞模板，只要輸入提示詞的名稱、說明和模板，並點擊產生分享連結，即可完成分享。更棒的是，啟用 Promptium
                 的進階功能後，還能將使用案例一併分享出去。
             </p>
-            <div class="m-0 d-flex justify-content-between">
-                <div>
-                    <a target="_blank" class="btn btn-dark btn-sm" role="button"
+            <div class="m-0 d-flex flex-md-row flex-column-reverse justify-content-between">
+                <div class="">
+                    <a target="_blank" class="btn btn-dark btn-sm w-100" role="button"
                         href="https://github.com/lloyd3126/Promptium/issues">
                         提交範例
                     </a>
                 </div>
-                <div>
-                    <a class="btn btn-dark btn-sm" href="./index.html" role="button">
+                <div class="d-flex flex-md-row flex-column mb-2 mb-md-0">
+                    <a class="btn btn-dark btn-sm w-100 mb-2 mb-md-0 me-md-2" href="./index.html" role="button">
                         製作模板
                     </a>
-                    <a class="btn btn-dark btn-sm" href="./flow.html" role="button">
+                    <a class="btn btn-dark btn-sm w-100 mb-2 mb-md-0 me-md-2" href="./flow.html" role="button">
                         製作流程
                     </a>
-                    <a class="btn btn-dark btn-sm disabled" href="./explore.html" role="button">
+                    <a class="btn btn-dark btn-sm w-100 disabled" href="./explore.html" role="button">
                         作者收藏
                     </a>
                 </div>
